@@ -32,6 +32,13 @@
     <plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.0" />
     <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
     <icon src="icon.png" />
+
+    <platform name="ios">
+        <config-file parent="NSMicrophoneUsageDescription" target="*-Info.plist">
+            <string>Player uses your microphone to record audio.</string>
+        </config-file>
+    </platform>
+
     <platform name="android">
         
     </platform>
