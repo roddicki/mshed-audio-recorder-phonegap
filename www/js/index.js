@@ -1,7 +1,10 @@
 
 document.addEventListener('deviceready', function(){
     //deviceready
-    document.getElementById('ready').innerHTML = "Device ready";
+    StatusBar.overlaysWebView(true);
+    StatusBar.styleBlackOpaque();
+    StatusBar.styleLightContent();
+
     console.log('----DEVICE READY----');
     print.ToTextArea('DEVICE READY');
     
@@ -26,6 +29,19 @@ document.addEventListener('deviceready', function(){
         print.ToTextArea('share');
         share(audio.srcFile);
     });
+});
+
+document.addEventListener('init', function(event) {
+  var page = event.target;
+
+  if (page.id === 'page1') {
+    page.querySelector('#push-button').onclick = function() {
+      document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: 'Page 2'}});
+      StatusBar.styleDefault();
+    };
+  } else if (page.id === 'page2') {
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+  }
 });
 
 
