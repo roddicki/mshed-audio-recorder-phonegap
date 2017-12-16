@@ -1,49 +1,35 @@
 
-var app = {
-    // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        //app.receivedEvent('deviceready');
-        document.getElementById('ready').innerHTML = "Device ready";
-        console.log('----DEVICE READY----');
-        outputToTextarea('DEVICE READY');
-        
-        document.getElementById('record').addEventListener('click', function() {
-            audio.createAudioFile();
-        });
+document.addEventListener('deviceready', function(){
+    //deviceready
+    document.getElementById('ready').innerHTML = "Device ready";
+    console.log('----DEVICE READY----');
+    print.ToTextArea('DEVICE READY');
+    
+    document.getElementById('record').addEventListener('click', function() {
+        audio.createAudioFile();
+    });
 
-        document.getElementById('stop-recording').addEventListener('click', function() {
-            audio.stopRecording();
-        });
+    document.getElementById('stop-recording').addEventListener('click', function() {
+        audio.stopRecording();
+    });
 
-        document.getElementById('play-recording').addEventListener('click', function() {
-            console.log("play btn pressed");
-            audio.goTo(2);
-            audio.play();
-        });
+    document.getElementById('play-recording').addEventListener('click', function() {
+        audio.play();
+    });
 
-        document.getElementById('pause-recording').addEventListener('click', function() {
-            audio.timeElapsed = audio.getCurrentPosition();
-            audio.pause();
-        });
+    document.getElementById('pause-recording').addEventListener('click', function() {
+        audio.timeElapsed = audio.getCurrentPosition();
+        audio.pause();
+    });
 
-    },
-};
+    document.getElementById('share').addEventListener('click', function() {
+        print.ToTextArea('share');
+        share(audio.srcFile);
+    });
+});
 
 
+//RECORD AND PLAYBACK AUDIO
 var audio = {
     srcFile: "",
     timeElapsed: 0,
@@ -55,29 +41,29 @@ var audio = {
         window.requestFileSystem(type, size, successCallback, errorCallback);
         function successCallback(fs) {
             fs.root.getFile('recording.m4a', {create: true, exclusive: false}, function(fileEntry) {
-                outputToTextarea('Audio File creation successfull:');
+                print.ToTextArea('Audio File creation successfull:');
                 //get file location
                 audio.srcFile = fileEntry.toInternalURL();
-                outputToTextarea("Audio File Location: " + audio.srcFile);
+                print.ToTextArea("Audio File Location: " + audio.srcFile);
                 //start recording
                 audio.recordAudio();
             }, errorCallback);
         }
         function errorCallback(error) {
-            outputToTextarea("ERROR: " + error.code + JSON.stringify(error));
+            print.ToTextArea("ERROR: " + error.code + JSON.stringify(error));
         }
     },
     recordAudio: function() {
-        outputToTextarea("Starting to record");
+        print.ToTextArea("Starting to record");
         //new Media() makes a file if one does not exist
         audio.recordingObject = new Media(audio.srcFile,
             // success callback
             function() {
-                outputToTextarea("recordAudio():Audio Success");
+                print.ToTextArea("recordAudio():Audio Success");
             },
             // error callback
             function(err) {
-                outputToTextarea("recordAudio():Audio Error: "+ err.code);
+                print.ToTextArea("recordAudio():Audio Error: "+ err.code);
             }
         );
         // Record audio
@@ -89,15 +75,15 @@ var audio = {
         audio.recordingObject.release();
     },
     play: function() {
-        console.log("play");
+        console.log("play recording");
         audio.playbackObject = new Media(audio.srcFile,
         // success callback
         function() {
-            outputToTextarea("playAudio():Audio Success");
+            print.ToTextArea("playAudio():Audio Success");
         },
         // error callback
         function(err) {
-            outputToTextarea("playAudio():Audio Error: "+ JSON.stringify(err));
+            print.ToTextArea("playAudio():Audio Error: "+ JSON.stringify(err));
         });
         // Play audio
         audio.playbackObject.play();
@@ -108,10 +94,10 @@ var audio = {
     getCurrentPosition: function() {
         audio.playbackObject.getCurrentPosition(
             function(secs){
-                outputToTextarea("Elapsed Time: "+ secs);
+                print.ToTextArea("Elapsed Time: "+ secs);
             }, 
             function(err) {
-                outputToTextarea("recordAudio():Audio Error: "+ err.code);
+                print.ToTextArea("recordAudio():Audio Error: "+ err.code);
             });
     },
     goTo: function() {
@@ -120,26 +106,28 @@ var audio = {
 
 };
 
+//OUTPUT TO TEXTAEREA
+var print = {
+    ToTextArea: function(output) {
+        var currentValue = document.getElementById("ouputarea").innerHTML;
+        output += "<br>" + currentValue;
+        document.getElementById("ouputarea").innerHTML = output;
+    }
+};
 
-//OUTPUT TO TEXTAREA
-function outputToTextarea(output) {
-    var currentValue = document.getElementById("ouputarea").innerHTML;
-    output += "<br><br>" + currentValue;
-    document.getElementById("ouputarea").innerHTML = output;
-}
 
-
-//CONVERT FILE LOCATION from cdvfile://localhost/ to file//// 
-//(src) should = a cdvfile url
-function getNativeFileLocation(src) {
-    window.resolveLocalFileSystemURL(src, OnSuccessGetFile, errorCallback)
+//CONVERT FILE AND SHARE from cdvfile://localhost/ to file//// 
+//(src) must = a cdvfile url
+var share = function(src) {
+    window.resolveLocalFileSystemURL(src, OnSuccessGetFile, errorCallback);
 
     function OnSuccessGetFile (entry) {
         var nativePath = entry.toURL();
-        outputToTextarea('Native URI: ' + nativePath);
+        window.plugins.socialsharing.share('audio file', 'Your audio', nativePath);
     }
 
     function errorCallback(error) {
-        outputToTextarea("ERROR: " + error.code + JSON.stringify(error));
+        print.ToTextArea("ERROR: " + error.code + JSON.stringify(error));
     }
-}
+};
+
