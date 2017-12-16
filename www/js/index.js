@@ -30,6 +30,7 @@ var app = {
         });
 
         document.getElementById('play-recording').addEventListener('click', function() {
+            console.log("play btn pressed");
             audio.goTo(2);
             audio.play();
         });
@@ -83,10 +84,12 @@ var audio = {
         audio.recordingObject.startRecord();
     },
     stopRecording: function() {
+        console.log("stop recording");
         audio.recordingObject.stopRecord();
         audio.recordingObject.release();
     },
     play: function() {
+        console.log("play");
         audio.playbackObject = new Media(audio.srcFile,
         // success callback
         function() {
