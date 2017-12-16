@@ -41,6 +41,13 @@
         </config-file>
     </platform>
 
+    <platform name="ios">
+        <config-file parent="UIBackgroundModes" overwrite="true">
+            <string>audio</string>
+        </config-file>
+    </platform>
+
+
     <platform name="android">
         
     </platform>
