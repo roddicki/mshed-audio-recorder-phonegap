@@ -7,6 +7,9 @@ document.addEventListener('deviceready', function(){
 
     console.log('----DEVICE READY----');
     print.ToTextArea('DEVICE READY');
+    //enable background mode plugin
+    cordova.plugins.backgroundMode.enable();
+    print.ToTextArea('backgroundMode is active: ' + cordova.plugins.backgroundMode.isActive());
     
     document.getElementById('record').addEventListener('click', function() {
         audio.createAudioFile();
