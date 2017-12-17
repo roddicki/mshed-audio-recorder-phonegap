@@ -43,14 +43,14 @@
         </config-file>
     </platform>
 
-    <platform name="ios">
-        <!-- The app is able to run in background through audio mode -->
+    <!-- The app is able to run in background through audio mode -->
+    <!-- <platform name="ios">
         <config-file target="*-Info.plist" parent="UIBackgroundModes">
             <array>
                 <string>audio</string>
             </array>
         </config-file>
-    </platform>
+    </platform> -->
 
 
     <platform name="android">
