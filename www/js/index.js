@@ -9,7 +9,11 @@ document.addEventListener('deviceready', function(){
     print.ToTextArea('DEVICE READY');
     //enable background mode plugin
     cordova.plugins.backgroundMode.enable();
-    print.ToTextArea('backgroundMode is active: ' + cordova.plugins.backgroundMode.isActive());
+    cordova.plugins.backgroundMode.on('EVENT', function(e){
+        print.ToTextArea('backgroundMode is : ' + e);
+    });
+
+    
     
     document.getElementById('record').addEventListener('click', function() {
         audio.createAudioFile();
@@ -34,6 +38,7 @@ document.addEventListener('deviceready', function(){
     });
 });
 
+//ONSEN PAGE NAVIGATION
 document.addEventListener('init', function(event) {
   var page = event.target;
 
