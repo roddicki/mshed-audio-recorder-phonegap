@@ -1,17 +1,17 @@
 
 document.addEventListener('deviceready', function(){
     //deviceready
-    StatusBar.overlaysWebView(true);
+    /*StatusBar.overlaysWebView(true);
     StatusBar.styleBlackOpaque();
-    StatusBar.styleLightContent();
+    StatusBar.styleLightContent();*/
 
     console.log('----DEVICE READY----');
     print.ToTextArea('DEVICE READY');
     //enable background mode plugin
-    cordova.plugins.backgroundMode.enable();
+    /*cordova.plugins.backgroundMode.enable();
     cordova.plugins.backgroundMode.on('EVENT', function(e){
         print.ToTextArea('backgroundMode is : ' + e);
-    });
+    });*/
 
     
     
