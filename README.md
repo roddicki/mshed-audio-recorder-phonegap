@@ -2,7 +2,7 @@
 
 ## Usage
 Create a new phonegap project using Phonegap cli or desktop app. 
-Replace the www directory with this demo / working repository (it includes test audio files).
+Replace the www directory with this demo / working repository.
 
 
 
