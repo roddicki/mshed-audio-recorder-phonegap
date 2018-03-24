@@ -1,42 +1,13 @@
-body {
-  //background-color: black;
-  //color: white;
+
+
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 
-.right {
-  display: inline-block;
-  float: right;
+.textarea, .input {
+	width: 50%;
 }
-
-.o-page1 {
-  margin: 20px;
-  margin-top: 40px;
-}
-
-.o-page2 .page__background {
-  background-image: url('../img/bg1.jpg');
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-
-a {
-  margin-right: 30px !important;
-}
-
-#ouputarea { 
-    height: 400px;
-    border: 1px solid gray;
-    color: gray;
-    text-align: left;
-    padding-left: 10px;
-    text-transform:lowercase;
-    overflow-y: scroll;
-    //overflow-x: scroll;
-    margin: auto;
-    margin-top: 10px;
-    line-height: 30px;
-    font-size: 20px;
-}
-
-

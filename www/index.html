@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="onsen/css/onsenui.css">
     <link rel="stylesheet" href="onsen/css/onsen-css-components.css">
+    <link rel="stylesheet" href="onsen/css/theme.css">
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <title>Player</title>
 </head>
@@ -18,32 +19,83 @@
 <body>
     <ons-navigator swipeable id="myNavigator" page="page1.html"></ons-navigator>
 
+    <!-- page 1 -->
     <template id="page1.html">
-      <ons-page id="page1" class="o-page1">
-            <div>
-                <a class="button button--outline" id="record" href="#">Record</a>
-                <a class="button button--outline" id="stop-recording" href="#">Stop Recording</a>
-                <a class="button button--outline" id="play-recording" href="#">Play</a>
-                <a class="button button--outline" id="pause-recording" href="#">Pause</a>
-                <a class="button button--outline" id="share" href="#">Share</a>
-                <ons-button class="button button--outline right" id="push-button">Cover</ons-button>
-            </div>
-            <p id="ouputarea"></p>            
+      <ons-page id="page1" class="o-page">
+        <ons-toolbar>
+            <div class="center title">Step 1 / 3</div>
+        </ons-toolbar>
+
+        <ons-progress-bar value="33" secondary-value="100"></ons-progress-bar>
+
+        <p>
+            <a class="button button--outline" id="record" href="#">Record</a>
+            <a class="button button--outline" id="stop-recording" href="#">Stop Recording</a>
+            <a class="button button--outline" id="play-recording" href="#">Play</a>
+            <a class="button button--outline" id="pause-recording" href="#">Pause</a>
+            <a class="button button--outline" id="share" href="#">Share</a>
+            <ons-button class="button button--outline right" id="next-btn">Next</ons-button>
+        </p>
+
+        <p id="ouputarea"></p>            
       </ons-page>
     </template>
 
+    <!-- page 2 -->
     <template id="page2.html">
-      <ons-page id="page2" class="o-page2">
-      </ons-page>
+        <ons-page id="page2" class="o-page">
+            <ons-toolbar>
+                <div class="left"><ons-back-button id="back-to-p1">Go back</ons-back-button></div>
+                <div class="center">Step 2 / 3</div>
+                <div class="right"><ons-toolbar-button id="save-location">Save location and continue <i class="ion-chevron-right"></i></ons-toolbar-button></div>
+            </ons-toolbar>
+            <ons-progress-bar value="66" secondary-value="100"></ons-progress-bar>
+
+            <div id="map"></div>
+
+        </ons-page>
     </template>
+
+    <!-- page 3 -->
+    <template id="page3.html">
+        <ons-page id="page3" class="o-page">
+            <ons-toolbar>
+                <div class="left"><ons-back-button>Go back</ons-back-button></div>
+                <div class="center">step 3 / 3</div>
+            </ons-toolbar>
+            <ons-progress-bar value="100" secondary-value="100"></ons-progress-bar>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <p>
+                  <ons-input class="input" id="name" modifier="underbar" placeholder="name"></ons-input>
+                </p>
+                <p>
+                  <textarea class="textarea" rows="3" id="story" placeholder="story"></textarea>
+                </p>
+                <p style="margin-top: 30px;">
+                  <ons-button id="finish-btn">Finish</ons-button>
+                </p>
+            </div>
+
+        </ons-page>
+    </template>
+
+    <!-- map modal -->
+    <ons-modal direction="up">
+      <div class="map-modal-text" style="text-align: center">
+        <p>Where did your story take place?</p>
+        <p>Tap the map to add the location of your story.</p>
+        <p>Move the map with one finger.</p>
+        <p>Zoom the map with two fingers.</p>
+        <ons-button onclick="hideModal()">Ok</ons-button>
+      </div>
+    </ons-modal>
+
 
 
     <script src="onsen/js/onsenui.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">
-        app.initialize();
-    </script>
 </body>
 
 </html>
