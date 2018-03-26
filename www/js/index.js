@@ -1,47 +1,95 @@
+//to do
+//reset map / remove pin
+//record button on/off
 
-document.addEventListener('deviceready', function(){
-    //deviceready
-    /*StatusBar.overlaysWebView(true);
-    StatusBar.styleBlackOpaque();
-    StatusBar.styleLightContent();*/
+// Initialize your app
+var myApp = new Framework7({
+    animateNavBackIcon:true
+});
 
-    console.log('----DEVICE READY----');
-    print.ToTextArea('DEVICE READY');
-    //enable background mode plugin
-    /*cordova.plugins.backgroundMode.enable();
-    cordova.plugins.backgroundMode.on('EVENT', function(e){
-        print.ToTextArea('backgroundMode is : ' + e);
-    });*/
+// Export selectors engine
+var $$ = Dom7;
+
+// Add main View
+var mainView = myApp.addView('.view-main', {
+    // Enable dynamic Navbar
+    dynamicNavbar: true,
+    iosSwipeBack: false,
+    // Enable Dom Cache so we can use all inline pages
+    domCache: true
+});
+
+//when map page loads
+$$(document).on('page:init', '.page[data-page="map"]', function (e) {
+	injectMapScript();
+	myApp.popover(".map-popover", ".pop");
+	//mapPopover.open("#map-popover", "#map", true);
+	document.getElementById('map-popover').addEventListener('click', function(){
+		myApp.closeModal(".map-popover", true);
+	});
+});
+
+
+
+document.addEventListener('deviceready', function() {
+    /* Javascript here... */
+    console.log('\n-------------\nDEVICE READY');
 
     document.getElementById('record').addEventListener('click', function() {
+    	console.log('record');
         audio.createAudioFile();
     });
 
     document.getElementById('stop-recording').addEventListener('click', function() {
+    	console.log('stop-recording');
         audio.stopRecording();
+        recordDone = true;
     });
 
     document.getElementById('play-recording').addEventListener('click', function() {
+    	console.log('play-recording');
         audio.play();
     });
 
     document.getElementById('pause-recording').addEventListener('click', function() {
+    	console.log('pause-recording');
         audio.timeElapsed = audio.getCurrentPosition();
         audio.pause();
     });
 
-    document.getElementById('share').addEventListener('click', function() {
-        print.ToTextArea('share');
-        share(audio.srcFile);
+    document.getElementById('go-to-map').addEventListener('click', function() {
+        console.log('go-to-map');
+        if (recordDone) {
+        	mainView.router.load({pageName: 'map'});
+        } else {
+        	navigator.notification.alert("Oops you haven't finished recording your story");
+        };
+        //uploadText();
+        //uploadAudio(audio.srcFile);
     });
 
-    document.getElementById('upload').addEventListener('click', function() {
-        print.ToTextArea('upload');
+    document.getElementById('go-to-form').addEventListener('click', function() {
+        console.log('go-to-form');
+        if (savedLocation != null) {
+        	mainView.router.load({pageName: 'form'});
+        } else {
+        	navigator.notification.alert("Please tap a location on the map");
+        };
+        //uploadText();
+        //uploadAudio(audio.srcFile);
+    });
+
+    document.getElementById('finish').addEventListener('click', function() {
+    	navigator.notification.alert("Thanks! Your story has been submitted, download the app");
+        console.log('finish');
+        saveUserInput();
+        console.log(uploadData);
         //uploadText();
         uploadAudio(audio.srcFile);
+        setTimeout(resetApp, 4000);
     });
 
-    // FIREBASE FUNCTIONS
+    // Initialize FIREBASE 
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyDOoUezKPivRQbKI_dBpQC7X4aUB0vit_I",
@@ -58,6 +106,7 @@ document.addEventListener('deviceready', function(){
     var database = firebase.database();
     var ref = database.ref('stories');
 
+    // FIREBASE FUNCTIONS
     //create Blob to upload
     function uploadAudio(src) {
         window.resolveLocalFileSystemURL(src, OnSuccessGetFile, errorCallback);
@@ -82,10 +131,10 @@ document.addEventListener('deviceready', function(){
         }
     }
 
-    //UPLOAD
+    //UPLOAD     
     function pushToFirebase(file){
       //create storage ref
-      var storageRef = firebase.storage().ref("audioUploads/recordingFromApp1.m4a");
+      var storageRef = firebase.storage().ref("audioUploads/"+uploadData.name+"-"+makeId()+"-recordingMshed.m4a");
       //upload the file
       var task = storageRef.put(file);
       //update the progress bar
@@ -105,27 +154,24 @@ document.addEventListener('deviceready', function(){
           console.log("upload complete");
           console.log(task.snapshot.downloadURL);
           //Send data
-          var data = {
-            title: "Bedwyr's story",
-            name: "Bedwyr",
-            latitude: 51.447271, 
-            longitude: -2.616087,
-            audioFile: task.snapshot.downloadURL
-          }
-          ref.push(data);
+          uploadData.audioFile = task.snapshot.downloadURL;
+          ref.push(uploadData);
         }
 
       );
     }
-
-
     //END FIREBASE FUNCTIONS
+    
 
 });
 
+
+
+//mainView.router.load({pageName: 'form'});
+
+//RECORD variables
+var recordDone = false;
 //MAP variables
-//var marker;
-//var loc = {};
 var modalDone = false;
 var alertDone = false;
 var mapCreated = false;
@@ -133,92 +179,19 @@ var savedLocation = null;
 //data to upload
 var uploadData = {};
 
-
-
-//ONSEN PAGE NAVIGATION
-document.addEventListener('init', function(event) {
-    var page = event.target;
-
-    //page 1 loaded
-    if (page.id === 'page1') {
-        console.log('page 1 loaded');
-        page.querySelector('#next-btn').onclick = function() {
-            document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: 'Step 2'}});
-            StatusBar.styleDefault();
-        };
-    } 
-
-    //page 2 loaded
-    else if (page.id === 'page2') {
-        console.log('page 2 loaded');
-        if (!(mapCreated)) {
-            //inject map script
-            injectMapScript();
-            //build map with script callback
-            if (!(modalDone)) {showModal()};
-        };
-        page.querySelector('#back-to-p1').onclick = function() {
-            console.log('#back-to-p1');
-            if (mapCreated) {
-                //remove map
-                //delete map div
-                //delete map script tag
-                console.log('delete map-script');
-                var parent = document.getElementsByTagName('body')[0];
-                var child = document.getElementById('map-script');
-                parent.removeChild(child);
-                mapCreated = false;
-            };
-        };
-        page.querySelector('#save-location').onclick = function() {
-            if (savedLocation != null) {
-                console.log(savedLocation.lat, savedLocation.lng);
-                document.querySelector('#myNavigator').pushPage('page3.html', {data: {title: 'Step 3'}});
-                StatusBar.styleDefault();
-            } else {
-                ons.notification.alert("Oops you forgot to mark a location");
-
-            };
-          
-        } 
-    }
-
-    //page 3 loaded
-    else if (page.id === 'page3') {
-        page.querySelector('#finish-btn').onclick = function() {
-            console.log(document.querySelector('#name').value);
-            console.log(document.querySelector('#story').value);
-            ons.notification.toast('Thanks now download the app!', { timeout: 2000, animation: 'fall' })
-            //reset variables, empty forms, go to 1
-            setTimeout(reset, 3000);
-        }
-    };
-
-});
-
-
-//RESET
-function reset(){
-    document.querySelector('#name').value = "";
-    document.querySelector('#story').value = "";
-    document.querySelector('#myNavigator').pushPage('page1.html', {data: {title: 'Step 3'}});
-    //savedLocation = null;
-    //modalDone = false;
-    //alertDone = false;
-    //mapCreated = false;
-}
-
-
-//ONSEN Map Page modal
-function showModal() {
-    var modal = document.querySelector('ons-modal');
-    modal.show();
-    modalDone = true;
-}
-
-function hideModal() {
-    var modal = document.querySelector('ons-modal');
-    modal.hide();
+//RESET APP
+function resetApp(){
+    document.getElementById('your-name').value = "";
+	document.getElementById('your-title').value = "";
+	uploadData = {};
+	recordDone = false;
+    savedLocation = null;
+    modalDone = false;
+    alertDone = false;
+    mapCreated = false;
+    mainView.router.load({pageName: 'index'});
+    //reset map to mshed
+    //remove marker
 }
 
 
@@ -262,6 +235,8 @@ function initMap() {
     //listen for map click and add / move marker
     map.addListener('click', function(e) {
         var clickedLoc = JSON.parse(JSON.stringify(e.latLng));
+        uploadData.latitude = clickedLoc.lat;
+        uploadData.longitude = clickedLoc.lng;
         savedLocation = clickedLoc;
         
         //place marker
@@ -276,7 +251,7 @@ function initMap() {
         } 
         if (!(alertDone)) {
             setTimeout(function(){
-                ons.notification.alert("If you want to move the marker you can click the map again");
+            	navigator.notification.alert("If you want to move the marker you can click the map again");
             }   
             ,600);
             alertDone = true;
@@ -284,6 +259,19 @@ function initMap() {
     });
     //set global
     mapCreated = true;
+}
+
+//USER DATA FUNCTIONS
+function saveUserInput(){
+	uploadData.name = document.getElementById('your-name').value;
+	uploadData.title = document.getElementById('your-title').value;
+	uploadData.published = false;
+}
+
+//create random unique string for the id of each button
+function makeId() {
+	var uniqueId = Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
+	return uniqueId;
 }
 
 
@@ -365,6 +353,7 @@ var audio = {
 
 };
 
+
 //OUTPUT TO TEXTAEREA
 var print = {
     ToTextArea: function(output) {
@@ -373,43 +362,4 @@ var print = {
         document.getElementById("ouputarea").innerHTML = output;
     }
 };
-
-//CONVERT FILE AND SHARE from cdvfile://localhost/ to file//// 
-//(src) must = a cdvfile url
-var convertFile = function(src) {
-    window.resolveLocalFileSystemURL(src, OnSuccessGetFile, errorCallback);
-
-    function OnSuccessGetFile (entry) {
-        var nativePath = entry.toURL();
-        uploadData.audioPath = nativePath;
-        uploadData,audioObject = entry;
-        print.ToTextArea(nativePath);
-        print.ToTextArea("fileEntry: " + entry);
-        upload(entry);
-    }
-
-    function errorCallback(error) {
-        print.ToTextArea("ERROR: " + error.code + JSON.stringify(error));
-    }
-};
-
-//CONVERT FILE AND SHARE from cdvfile://localhost/ to file//// 
-//(src) must = a cdvfile url
-var share = function(src) {
-    window.resolveLocalFileSystemURL(src, OnSuccessGetFile, errorCallback);
-
-    function OnSuccessGetFile (entry) {
-        var nativePath = entry.toURL();
-        window.plugins.socialsharing.share('audio file', 'Your audio', nativePath);
-    }
-
-    function errorCallback(error) {
-        print.ToTextArea("ERROR: " + error.code + JSON.stringify(error));
-    }
-};
-
-
-
-
-
 

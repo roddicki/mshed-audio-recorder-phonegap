@@ -1,102 +1,184 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>My App</title>
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="css/framework7.ios.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/index.css">
+  </head>
+  <body>
+    <!-- Status bar overlay for fullscreen mode-->
+    <div class="statusbar-overlay"></div>
+    
+    <!-- Views-->
+    <div class="views">
+      <!-- Your main view, should have "view-main" class-->
+      <div class="view view-main">
+        
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-
-     <meta http-equiv="Content-Security-Policy" content="default-src * gap://ready file:; style-src 'self' 'unsafe-inline'; connect-src *; img-src * 'self' data:; script-src * 'unsafe-inline' 'unsafe-eval'">
-
-    <link rel="stylesheet" href="onsen/css/onsenui.css">
-    <link rel="stylesheet" href="onsen/css/onsen-css-components.css">
-    <link rel="stylesheet" href="onsen/css/theme.css">
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <title>Player</title>
-</head>
-
-<body>
-    <ons-navigator swipeable id="myNavigator" page="page1.html"></ons-navigator>
-
-    <!-- page 1 -->
-    <template id="page1.html">
-      <ons-page id="page1" class="o-page">
-        <ons-toolbar>
-            <div class="center title">Step 1 / 3</div>
-        </ons-toolbar>
-
-        <ons-progress-bar value="33" secondary-value="100"></ons-progress-bar>
-
-        <p>
-            <a class="button button--outline" id="record" href="#">Record</a>
-            <a class="button button--outline" id="stop-recording" href="#">Stop Recording</a>
-            <a class="button button--outline" id="play-recording" href="#">Play</a>
-            <a class="button button--outline" id="pause-recording" href="#">Pause</a>
-            <a class="button button--outline" id="share" href="#">Share</a>
-            <a class="button button--outline" id="upload" href="#">upload</a>
-            <ons-button class="button button--outline right" id="next-btn">Next</ons-button>
-        </p>
-
-        <p id="ouputarea"></p>            
-      </ons-page>
-    </template>
-
-    <!-- page 2 -->
-    <template id="page2.html">
-        <ons-page id="page2" class="o-page">
-            <ons-toolbar>
-                <div class="left"><ons-back-button id="back-to-p1">Go back</ons-back-button></div>
-                <div class="center">Step 2 / 3</div>
-                <div class="right"><ons-toolbar-button id="save-location">Save location and continue <i class="ion-chevron-right"></i></ons-toolbar-button></div>
-            </ons-toolbar>
-            <ons-progress-bar value="66" secondary-value="100"></ons-progress-bar>
-
-            <div id="map"></div>
-
-        </ons-page>
-    </template>
-
-    <!-- page 3 -->
-    <template id="page3.html">
-        <ons-page id="page3" class="o-page">
-            <ons-toolbar>
-                <div class="left"><ons-back-button>Go back</ons-back-button></div>
-                <div class="center">step 3 / 3</div>
-            </ons-toolbar>
-            <ons-progress-bar value="100" secondary-value="100"></ons-progress-bar>
-
-            <div style="text-align: center; margin-top: 30px;">
-                <p>
-                  <ons-input class="input" id="name" modifier="underbar" placeholder="name"></ons-input>
-                </p>
-                <p>
-                  <textarea class="textarea" rows="3" id="story" placeholder="story"></textarea>
-                </p>
-                <p style="margin-top: 30px;">
-                  <ons-button id="finish-btn">Finish</ons-button>
-                </p>
+        <!-- Top Navbar-->
+        <div class="navbar">
+          <!-- Navbar inner for Index page-->
+          <div data-page="index" class="navbar-inner">
+            <!-- We have home navbar without left link-->
+            <div class="center sliding">Step 1 / 4</div>
+            <div class="right">
+              <!-- Right link contains only icon - additional "icon-only" class-->
+              <a href="#record" class="link">Next</a>
             </div>
+          </div>
+          <!-- Navbar inner for RECORD page-->
+          <div data-page="record" class="navbar-inner cached">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="center sliding">Step 2 / 4</div>
+            <div class="right">
+              <!-- Right link contains only icon - additional "icon-only" class-->
+              <a href="#" id="go-to-map" class="link"><i class="icon chevron_right"></i><span>Next</span></a>
+            </div>
+          </div>
+          <!-- Navbar inner for MAP page-->
+          <div data-page="map" class="navbar-inner cached">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="center sliding pop">Step 3 / 4</div>
+            <div class="right">
+              <!-- Right link contains only icon - additional "icon-only" class-->
+              <a href="" id="go-to-form" class="link">Next</a>
+            </div>
+          </div>
+          <!-- Navbar inner for FORM page-->
+          <div data-page="form" class="navbar-inner cached">
+            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="center sliding" >Step 4 / 4</div>
+          </div>
+        </div>
+        <!-- Top Navbar-->
 
-        </ons-page>
-    </template>
 
-    <!-- map modal -->
-    <ons-modal direction="up">
-      <div class="map-modal-text" style="text-align: center">
-        <p>Where did your story take place?</p>
-        <p>Tap the map to add the location of your story.</p>
-        <p>Move the map with one finger.</p>
-        <p>Zoom the map with two fingers.</p>
-        <ons-button onclick="hideModal()">Ok</ons-button>
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        <div class="pages navbar-through toolbar-through">
+
+          <!-- Index Page-->
+          <div data-page="index" class="page">
+            <!-- Scrollable page content-->
+            <div class="page-content">
+              <div class="content-block-title">Welcome To </div>
+              <div class="content-block">
+                <div class="content-block-inner">
+                  <p>First page</p>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RECORD Page-->
+          <div data-page="record" class="page cached">
+            <div class="page-content">
+              <div class="content-block-title">Record your story</div>
+              <div class="content-block">
+                <div class="content-block-inner">
+                  <div class="block">
+                    <div class="row" style="padding-right:200px;padding-left:200px;">
+                        <button id="record" class="button button-fill button-big button-round">Record</button>
+                        <button id="stop-recording" class="button button-fill button-big button-round">Stop Recording</button>
+                        <button id="play-recording" class="button button-fill button-big button-round">Play back recording</button>
+                        <button id="pause-recording" class="button button-fill button-big button-round">Pause</button>
+                        <!-- <button id="upload" class="col button button-fill button-big button-round">Upload</button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="content-block">
+                <div id="ouputarea" class="content-block-inner"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MAP Page-->
+          <div data-page="map" class="page cached">
+            <div class="page-content">
+              <div class="content-block-title">Map</div>
+              <div class="content-block">
+                <div id="map"></div> 
+                </div>
+            </div>
+          </div>
+
+          <!-- FORM Page-->
+          <div data-page="form" class="page cached">
+            <div class="page-content">
+              <div class="content-block-title">Form</div>
+              <div class="content-block">
+                <div class="content-block-inner">
+
+                  <div class="list-block">
+                    <ul>
+                      <li>
+                        <div class="item-content">
+                          <div class="item-media"><i class="icon icon-form-name"></i></div>
+                          <div class="item-inner"> 
+                            <div class="item-title label">Name</div>
+                            <div class="item-input">
+                              <input id="your-name" type="text" placeholder="Your name">
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="align-top">
+                        <div class="item-content">
+                          <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                          <div class="item-inner"> 
+                            <div class="item-title label">Title of your story</div>
+                            <div class="item-input">
+                              <textarea id="your-title" placeholder="Title of your story"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="content-block">
+                    <div class="row">
+                      <div class="col-100" style="padding-left:250px;padding-right:250px">
+                        <input type="submit" value="Finish" id="finish" class="button button-big button-fill">
+                      </div>
+                    </div>
+                  </div>
+        
+                </div>
+              </div>
+            </div>
+          </div>
+              
+        </div>
+        <!-- end pages -->
+
+        <!-- popover -->
+        <div class="popover map-popover" id="map-popover">
+            <!-- Popover content -->
+            <div class="popover-inner" style="text-align: center">
+                <p>Where did your story take place?</p>
+                <p>Tap the map to add the location of your story.</p>
+                <p>Move the map with one finger.</p>
+                <p>Zoom the map with two fingers.</p>
+                <a class="link popover-close" class="button button-fill button-round">OK</a>
+            </div>
+        </div>
+        <!-- popover -->
+
       </div>
-    </ons-modal>
-
-
-    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-    <script src="onsen/js/onsenui.js"></script>
+    </div>
+        
     <script type="text/javascript" src="cordova.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <!-- Path to Framework7 Library JS-->
+    <script type="text/javascript" src="js/framework7.min.js"></script>
+    <!-- Path to your app js-->
     <script type="text/javascript" src="js/index.js"></script>
-</body>
-
+  </body>
 </html>
