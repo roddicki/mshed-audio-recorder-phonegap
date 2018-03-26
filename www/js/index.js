@@ -13,8 +13,6 @@ document.addEventListener('deviceready', function(){
         print.ToTextArea('backgroundMode is : ' + e);
     });*/
 
-    
-    
     document.getElementById('record').addEventListener('click', function() {
         audio.createAudioFile();
     });
@@ -37,6 +35,91 @@ document.addEventListener('deviceready', function(){
         share(audio.srcFile);
     });
 
+    document.getElementById('upload').addEventListener('click', function() {
+        print.ToTextArea('upload');
+        //uploadText();
+        uploadAudio(audio.srcFile);
+    });
+
+    // FIREBASE FUNCTIONS
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyDOoUezKPivRQbKI_dBpQC7X4aUB0vit_I",
+        authDomain: "audio-retrieve-test.firebaseapp.com",
+        databaseURL: "https://audio-retrieve-test.firebaseio.com",
+        projectId: "audio-retrieve-test",
+        storageBucket: "audio-retrieve-test.appspot.com",
+        messagingSenderId: "899690313623"
+    };
+    firebase.initializeApp(config);
+    console.log(firebase);
+
+    //set up database
+    var database = firebase.database();
+    var ref = database.ref('stories');
+
+    //create Blob to upload
+    function uploadAudio(src) {
+        window.resolveLocalFileSystemURL(src, OnSuccessGetFile, errorCallback);
+        function OnSuccessGetFile (fileEntry) {
+            fileEntry.file(function (file) {
+                var reader = new FileReader();
+
+                reader.onloadend = function() {
+                    console.log("Successful file write: " + this.result);
+                    console.log(fileEntry.fullPath + ": " + this.result);
+                    var name = "recordingBlob";
+                    var blob = new Blob([new Uint8Array(this.result)], { type: "audio/mp4" });
+                    pushToFirebase(blob); //upload
+                };
+
+                reader.readAsArrayBuffer(file);
+
+            }, function(error){console.log(error)});
+        }
+        function errorCallback(error) {
+            print.ToTextArea("ERROR: " + error.code + JSON.stringify(error));
+        }
+    }
+
+    //UPLOAD
+    function pushToFirebase(file){
+      //create storage ref
+      var storageRef = firebase.storage().ref("audioUploads/recordingFromApp1.m4a");
+      //upload the file
+      var task = storageRef.put(file);
+      //update the progress bar
+      task.on('state_changed',
+        //progress
+        function progress(snapshot) {
+          var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          //uploader.value = percentage;
+          console.log(percentage);
+        },
+        //error
+        function error(err) {
+          console.log(err);
+        },
+        //complete
+        function complete() {
+          console.log("upload complete");
+          console.log(task.snapshot.downloadURL);
+          //Send data
+          var data = {
+            title: "Bedwyr's story",
+            name: "Bedwyr",
+            latitude: 51.447271, 
+            longitude: -2.616087,
+            audioFile: task.snapshot.downloadURL
+          }
+          ref.push(data);
+        }
+
+      );
+    }
+
+
+    //END FIREBASE FUNCTIONS
 
 });
 
@@ -47,6 +130,10 @@ var modalDone = false;
 var alertDone = false;
 var mapCreated = false;
 var savedLocation = null;
+//data to upload
+var uploadData = {};
+
+
 
 //ONSEN PAGE NAVIGATION
 document.addEventListener('init', function(event) {
@@ -70,7 +157,6 @@ document.addEventListener('init', function(event) {
             //build map with script callback
             if (!(modalDone)) {showModal()};
         };
-
         page.querySelector('#back-to-p1').onclick = function() {
             console.log('#back-to-p1');
             if (mapCreated) {
@@ -84,7 +170,6 @@ document.addEventListener('init', function(event) {
                 mapCreated = false;
             };
         };
-    
         page.querySelector('#save-location').onclick = function() {
             if (savedLocation != null) {
                 console.log(savedLocation.lat, savedLocation.lng);
@@ -126,9 +211,9 @@ function reset(){
 
 //ONSEN Map Page modal
 function showModal() {
-  var modal = document.querySelector('ons-modal');
-  modal.show();
-  modalDone = true;
+    var modal = document.querySelector('ons-modal');
+    modal.show();
+    modalDone = true;
 }
 
 function hideModal() {
@@ -154,6 +239,7 @@ function initMap() {
     console.log('initMap');
     var marker;
     var mapCenter = {lat: 51.44780110633896, lng: -2.598216131749723};
+    //if a marker already has been added load map so marker is in the center
     if (savedLocation != null) {mapCenter =  savedLocation};
 
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -192,7 +278,7 @@ function initMap() {
             setTimeout(function(){
                 ons.notification.alert("If you want to move the marker you can click the map again");
             }   
-            ,500);
+            ,600);
             alertDone = true;
         }
     });
@@ -288,6 +374,24 @@ var print = {
     }
 };
 
+//CONVERT FILE AND SHARE from cdvfile://localhost/ to file//// 
+//(src) must = a cdvfile url
+var convertFile = function(src) {
+    window.resolveLocalFileSystemURL(src, OnSuccessGetFile, errorCallback);
+
+    function OnSuccessGetFile (entry) {
+        var nativePath = entry.toURL();
+        uploadData.audioPath = nativePath;
+        uploadData,audioObject = entry;
+        print.ToTextArea(nativePath);
+        print.ToTextArea("fileEntry: " + entry);
+        upload(entry);
+    }
+
+    function errorCallback(error) {
+        print.ToTextArea("ERROR: " + error.code + JSON.stringify(error));
+    }
+};
 
 //CONVERT FILE AND SHARE from cdvfile://localhost/ to file//// 
 //(src) must = a cdvfile url
