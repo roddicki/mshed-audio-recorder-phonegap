@@ -8,10 +8,12 @@
     <title>My App</title>
     <!-- Path to Framework7 Library CSS-->
     <link rel="stylesheet" href="css/framework7.ios.css">
+    <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
+
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="css/index.css">
   </head>
-  <body>
+  <body class="layout-dark">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar-overlay"></div>
     
@@ -35,10 +37,10 @@
           <!-- Navbar inner for RECORD page-->
           <div data-page="record" class="navbar-inner cached">
             <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
-            <div class="center sliding">Step 2 / 4</div>
+            <div class="center sliding record-pop">Step 2 / 4</div>
             <div class="right">
               <!-- Right link contains only icon - additional "icon-only" class-->
-              <a href="#" id="go-to-map" class="link"><i class="icon chevron_right"></i><span>Next</span></a>
+              <a href="#" id="go-to-map" class="link"><i class="icon chevron_right"></i><span>Save your audio recording and continue</span></a>
             </div>
           </div>
           <!-- Navbar inner for MAP page-->
@@ -84,12 +86,18 @@
                 <div class="content-block-inner">
                   <div class="block">
                     <div class="row" style="padding-right:200px;padding-left:200px;">
-                        <button id="record" class="button button-fill button-big button-round">Record</button>
-                        <button id="stop-recording" class="button button-fill button-big button-round">Stop Recording</button>
+                       <!--  <button id="record" class="button button-fill button-big button-round">Record</button>
+                        <button id="stop-recording" class="button button-fill button-big button-round">Stop Recording</button> -->
                         <button id="play-recording" class="button button-fill button-big button-round">Play back recording</button>
                         <button id="pause-recording" class="button button-fill button-big button-round">Pause</button>
                         <!-- <button id="upload" class="col button button-fill button-big button-round">Upload</button> -->
+
+
                     </div>
+                    <div class="audio-controls">
+                      <div class="record-btn-outer"><button id="start-stop-record" class="record-btn-inner"></button></div>
+                    </div>
+                    <div id="recording-timer" class="counter"></div>
                   </div>
                 </div>
               </div>
@@ -166,6 +174,18 @@
                 <p>Tap the map to add the location of your story.</p>
                 <p>Move the map with one finger.</p>
                 <p>Zoom the map with two fingers.</p>
+                <a class="link popover-close" class="button button-fill button-round">OK</a>
+            </div>
+        </div>
+        <!-- popover -->
+
+        <!-- popover -->
+        <div class="popover recording-popover" id="recording-popover">
+            <!-- Popover content -->
+            <div class="popover-inner" style="text-align: center">
+                <p>Record your story</p>
+                <p>Press the record button to start and stop</p>
+                <p>You can re record at any time</p>
                 <a class="link popover-close" class="button button-fill button-round">OK</a>
             </div>
         </div>

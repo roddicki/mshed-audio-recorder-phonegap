@@ -1,3 +1,27 @@
+@font-face {
+    font-family: HelveticaNeue-Light;
+    src: url(../fonts/HelveticaNeueLight.ttf);
+}
+
+@font-face {
+    font-family: HelveticaNeue-UltraLight;
+    src: url(../fonts/HelveticaNeue-UltraLight.otf);
+}
+
+@font-face {
+    font-family: HelveticaNeue-Thin;
+    src: url(../fonts/HelveticaNeueLTStd-Th.otf);
+}
+
+body {
+	font-family:'HelveticaNeue-Light' !important;
+}
+
+/*UI ELMENTS*/
+.content-block-title {
+	font-size: 25px;
+}
+
 #map {
   position: absolute;
   top: 0;
@@ -6,12 +30,50 @@
   right: 0;
 }
 
-.map-popover {
-	border: 20px solid rgba(255, 255, 255, 0.95);
-	font-size: 30px;
+.map-popover, .recording-popover {
+	opacity: 0.8 !important;
+	font-size: 27px;
 	width: 70%;
+	height: 80%;
+    color: #ffffff;
 }
 
-/*.textarea, .input {
-  width: 50%;
-}*/
+.popover-angle:after {
+	display: none !important;
+}
+
+/*RECORDER*/
+.audio-controls {
+	display: flex;
+	height: 50vh;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.record-btn-outer {
+	width: 70px;
+	height: 70px;
+	border-radius: 45px;
+	padding: 5px;
+	border:4px solid #ffffff;
+}
+
+.record-btn-inner {
+	display: inline-block;
+	width: 70px;
+	height: 70px;
+	border-radius: 36px;
+	background-color: #a96f6f;
+}
+
+.recording {
+	background-color: #ff0000;
+}
+
+.counter {
+	text-align: center;
+	color: #ffffff;
+	font-size: 35px;
+	font-family:'HelveticaNeue-Thin' !important;
+}

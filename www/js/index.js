@@ -1,6 +1,6 @@
 //to do
-//reset map / remove pin
-//record button on/off
+//reset: recentre map / remove pin / add map modal (line 23 change from page:ini to page show)
+
 
 // Initialize your app
 var myApp = new Framework7({
@@ -29,13 +29,42 @@ $$(document).on('page:init', '.page[data-page="map"]', function (e) {
 	});
 });
 
+//when record page loads
+$$(document).on('page:init', '.page[data-page="record"]', function (e) {
+    myApp.popover(".recording-popover", ".record-pop");
+    //mapPopover.open("#map-popover", "#map", true);
+    document.getElementById('recording-popover').addEventListener('click', function(){
+        myApp.closeModal(".recording-popover", true);
+    });
+});
 
+//mainView.router.load({pageName: 'record'});
 
 document.addEventListener('deviceready', function() {
     /* Javascript here... */
     console.log('\n-------------\nDEVICE READY');
 
-    document.getElementById('record').addEventListener('click', function() {
+    document.getElementById('start-stop-record').addEventListener('click', function() {
+        console.log('record');
+        if (audio.recording) {
+            audio.stopRecording();
+            recordDone = true;
+            //remove class
+            document.getElementById('start-stop-record').classList.remove("recording");
+            clearInterval(startStopTimer);
+            document.querySelector('#recording-timer').innerHTML = "Recording complete";
+        } else {
+            audio.createAudioFile();
+            //add class
+            document.getElementById('start-stop-record').classList.add("recording");
+            var fiveMinutes = 10 * 1
+            var display = document.querySelector('#recording-timer');
+            startTimer(fiveMinutes, display);
+        };
+        
+    });
+
+    /*document.getElementById('record').addEventListener('click', function() {
     	console.log('record');
         audio.createAudioFile();
     });
@@ -45,7 +74,7 @@ document.addEventListener('deviceready', function() {
         audio.stopRecording();
         recordDone = true;
     });
-
+*/
     document.getElementById('play-recording').addEventListener('click', function() {
     	console.log('play-recording');
         audio.play();
@@ -56,6 +85,8 @@ document.addEventListener('deviceready', function() {
         audio.timeElapsed = audio.getCurrentPosition();
         audio.pause();
     });
+
+
 
     document.getElementById('go-to-map').addEventListener('click', function() {
         console.log('go-to-map');
@@ -171,6 +202,7 @@ document.addEventListener('deviceready', function() {
 
 //RECORD variables
 var recordDone = false;
+var startStopTimer;
 //MAP variables
 var modalDone = false;
 var alertDone = false;
@@ -190,6 +222,7 @@ function resetApp(){
     alertDone = false;
     mapCreated = false;
     mainView.router.load({pageName: 'index'});
+    document.querySelector('#recording-timer').innerHTML = "";
     //reset map to mshed
     //remove marker
 }
@@ -274,11 +307,33 @@ function makeId() {
 	return uniqueId;
 }
 
+//RECORDING TIMER
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    startStopTimer = setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
 
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = "Recording: You have " + minutes + ":" + seconds + " seconds remaining";
+
+        if (--timer < 0) {
+            display.textContent = "Recording complete";
+            audio.stopRecording();
+            //remove class
+            clearInterval(startStopTimer);
+            recordDone = true;
+            document.getElementById('start-stop-record').classList.remove("recording");
+        }
+    }, 1000);
+}
 
 //RECORD AND PLAYBACK AUDIO
 var audio = {
     srcFile: "",
+    recording: false,
     timeElapsed: 0,
     recordingObject: "",
     playbackObject: "",
@@ -315,11 +370,13 @@ var audio = {
         );
         // Record audio
         audio.recordingObject.startRecord();
+        audio.recording = true;
     },
     stopRecording: function() {
         console.log("stop recording");
         audio.recordingObject.stopRecord();
         audio.recordingObject.release();
+        audio.recording = false;
     },
     play: function() {
         console.log("play recording");
