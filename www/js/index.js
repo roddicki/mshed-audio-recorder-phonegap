@@ -53,6 +53,7 @@ document.addEventListener('deviceready', function() {
             document.getElementById('start-stop-record').classList.remove("recording");
             clearInterval(startStopTimer);
             document.querySelector('#recording-timer').innerHTML = "Recording complete";
+            document.querySelector('#playback-panel').style.display = "initial";
         } else {
             audio.createAudioFile();
             //add class
@@ -75,7 +76,7 @@ document.addEventListener('deviceready', function() {
         recordDone = true;
     });
 */
-    document.getElementById('play-recording').addEventListener('click', function() {
+    /*document.getElementById('play-recording').addEventListener('click', function() {
     	console.log('play-recording');
         audio.play();
     });
@@ -84,6 +85,21 @@ document.addEventListener('deviceready', function() {
     	console.log('pause-recording');
         audio.timeElapsed = audio.getCurrentPosition();
         audio.pause();
+    });*/
+
+    document.getElementById('start-stop-playback').addEventListener('click', function() {
+        var playBtn = document.getElementById('start-stop-playback');
+        if (audio.playingBack) {
+            audio.pause();
+            playBtn.style.backgroundImage = "url('img/play-trans.png')";
+            playBtn.style.backgroundPosition = "14px 10px";
+        } else {
+            console.log('play-recording');
+            audio.play();
+            playBtn.style.backgroundImage = "url('img/pause.png')";
+            playBtn.style.backgroundPosition = "10px 10px";
+        };
+        
     });
 
 
@@ -225,6 +241,7 @@ function resetApp(){
     document.querySelector('#recording-timer').innerHTML = "";
     //reset map to mshed
     //remove marker
+    document.querySelector('#playback-panel').style.display = "none";
 }
 
 
@@ -326,6 +343,7 @@ function startTimer(duration, display) {
             clearInterval(startStopTimer);
             recordDone = true;
             document.getElementById('start-stop-record').classList.remove("recording");
+            document.querySelector('#playback-panel').style.display = "initial";
         }
     }, 1000);
 }
@@ -337,6 +355,7 @@ var audio = {
     timeElapsed: 0,
     recordingObject: "",
     playbackObject: "",
+    playingBack: false,
     createAudioFile: function() {
         var type = LocalFileSystem.PERSISTENT;
         var size = 5*1024*1024;
@@ -391,9 +410,11 @@ var audio = {
         });
         // Play audio
         audio.playbackObject.play();
+        audio.playingBack = true;
     },
     pause: function() {
         audio.playbackObject.pause();
+        audio.playingBack = false;
     },
     getCurrentPosition: function() {
         audio.playbackObject.getCurrentPosition(

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>My App</title>
+    <title>Mshed Recorder</title>
     <!-- Path to Framework7 Library CSS-->
     <link rel="stylesheet" href="css/framework7.ios.css">
     <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
@@ -40,7 +40,7 @@
             <div class="center sliding record-pop">Step 2 / 4</div>
             <div class="right">
               <!-- Right link contains only icon - additional "icon-only" class-->
-              <a href="#" id="go-to-map" class="link"><i class="icon chevron_right"></i><span>Save your audio recording and continue</span></a>
+              <!-- <a href="#" id="go-to-map" class="link"><i class="icon chevron_right"></i><span>Save your audio recording and continue</span></a> -->
             </div>
           </div>
           <!-- Navbar inner for MAP page-->
@@ -81,19 +81,27 @@
           <!-- RECORD Page-->
           <div data-page="record" class="page cached">
             <div class="page-content">
+              <div id="playback-panel">
+                <div class="content-block-title">
+                  Playback your recording
+                </div>
+                <div class="playback-controls">
+                  <div class="playback-btn-outer"><button id="start-stop-playback" class="playback-btn-inner"></button></div>
+                </div>
+                <div style="text-align:right;font-size:20px;padding-right:10px">
+                  <a href="#" id="go-to-map" class="link"><i class="icon chevron_right"></i><span>Save your audio recording and continue</span></a>
+                   <!--  <button id="record" class="button button-fill button-big button-round">Record</button>
+                    <button id="stop-recording" class="button button-fill button-big button-round">Stop Recording</button> -->
+                    <!-- <button id="play-recording" class="button button-fill button-big button-round">Play back recording</button>
+                    <button id="pause-recording" class="button button-fill button-big button-round">Pause</button> -->
+                    
+                    <!-- <button id="upload" class="col button button-fill button-big button-round">Upload</button> -->
+                </div>
+              </div>
               <div class="content-block-title">Record your story</div>
               <div class="content-block">
                 <div class="content-block-inner">
                   <div class="block">
-                    <div class="row" style="padding-right:200px;padding-left:200px;">
-                       <!--  <button id="record" class="button button-fill button-big button-round">Record</button>
-                        <button id="stop-recording" class="button button-fill button-big button-round">Stop Recording</button> -->
-                        <button id="play-recording" class="button button-fill button-big button-round">Play back recording</button>
-                        <button id="pause-recording" class="button button-fill button-big button-round">Pause</button>
-                        <!-- <button id="upload" class="col button button-fill button-big button-round">Upload</button> -->
-
-
-                    </div>
                     <div class="audio-controls">
                       <div class="record-btn-outer"><button id="start-stop-record" class="record-btn-inner"></button></div>
                     </div>
@@ -120,7 +128,7 @@
           <!-- FORM Page-->
           <div data-page="form" class="page cached">
             <div class="page-content">
-              <div class="content-block-title">Form</div>
+              <div class="content-block-title">Your Name and The Title of your story</div>
               <div class="content-block">
                 <div class="content-block-inner">
 
@@ -190,6 +198,8 @@
             </div>
         </div>
         <!-- popover -->
+
+
 
       </div>
     </div>
