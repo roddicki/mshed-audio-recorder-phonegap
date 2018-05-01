@@ -9,6 +9,8 @@
     <!-- Path to Framework7 Library CSS-->
     <link rel="stylesheet" href="css/framework7.ios.css">
     <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
 
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="css/index.css">
@@ -25,36 +27,45 @@
 
         <!-- Top Navbar-->
         <div class="navbar">
+
           <!-- Navbar inner for Index page-->
           <div data-page="index" class="navbar-inner">
             <!-- We have home navbar without left link-->
             <div class="center sliding">Step 1 / 4</div>
             <div class="right">
               <!-- Right link contains only icon - additional "icon-only" class-->
-              <a href="#record" class="link">Next</a>
+              <a href="#record" class="link nav-text">Next <i class="fas fa-chevron-right icon-custom"></i></a>
             </div>
           </div>
+
           <!-- Navbar inner for RECORD page-->
           <div data-page="record" class="navbar-inner cached">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="left sliding">
+              <a href="#" class="back link nav-text"><i class="fas fa-chevron-left icon-custom"></i> Back</a>
+            </div>
             <div class="center sliding record-pop">Step 2 / 4</div>
             <div class="right">
               <!-- Right link contains only icon - additional "icon-only" class-->
               <!-- <a href="#" id="go-to-map" class="link"><i class="icon chevron_right"></i><span>Save your audio recording and continue</span></a> -->
             </div>
           </div>
+
           <!-- Navbar inner for MAP page-->
           <div data-page="map" class="navbar-inner cached">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="left sliding">
+              <a href="#" class="back link nav-text"><i class="fas fa-chevron-left icon-custom"></i> Back</a>
+            </div>
             <div class="center sliding pop">Step 3 / 4</div>
             <div class="right">
-              <!-- Right link contains only icon - additional "icon-only" class-->
-              <a href="" id="go-to-form" class="link">Next</a>
+              <a href="" id="go-to-form" class="link nav-text">Next <i class="fas fa-chevron-right icon-custom"></i></a>
             </div>
           </div>
+
           <!-- Navbar inner for FORM page-->
           <div data-page="form" class="navbar-inner cached">
-            <div class="left sliding"><a href="#" class="back link"> <i class="icon icon-back"></i><span>Back</span></a></div>
+            <div class="left sliding">
+              <a href="#" class="back link nav-text"><i class="fas fa-chevron-left icon-custom"></i> Back</a>
+            </div>
             <div class="center sliding" >Step 4 / 4</div>
           </div>
         </div>
@@ -83,13 +94,19 @@
             <div class="page-content">
               <div id="playback-panel">
                 <div class="content-block-title">
-                  Playback your recording
+                  Listen to your recording
                 </div>
                 <div class="playback-controls">
-                  <div class="playback-btn-outer"><button id="start-stop-playback" class="playback-btn-inner"></button></div>
+                  <div class="playback-btn-outer">
+                    <button id="start-stop-playback" class="playback-btn-inner"></button>
+                  </div>
+                  <div class="playback-nav">
+                    <a href="#" id="go-to-map" class="playback-nav-link">Save your recording and continue <i class="fas fa-chevron-right icon-custom"></i></a>
+                  </div>
                 </div>
-                <div style="text-align:right;font-size:20px;padding-right:10px">
-                  <a href="#" id="go-to-map" class="link"><i class="icon chevron_right"></i><span>Save your audio recording and continue</span></a>
+
+                <div class="">
+                  
                    <!--  <button id="record" class="button button-fill button-big button-round">Record</button>
                     <button id="stop-recording" class="button button-fill button-big button-round">Stop Recording</button> -->
                     <!-- <button id="play-recording" class="button button-fill button-big button-round">Play back recording</button>
@@ -128,16 +145,15 @@
           <!-- FORM Page-->
           <div data-page="form" class="page cached">
             <div class="page-content">
-              <div class="content-block-title">Your Name and The Title of your story</div>
+              <div class="content-block-title">Add Your Name And Give Your Story A Title</div>
               <div class="content-block">
-                <div class="content-block-inner">
+                <div class="content-block-inner form-block">
 
                   <div class="list-block">
                     <ul>
                       <li>
                         <div class="item-content">
-                          <div class="item-media"><i class="icon icon-form-name"></i></div>
-                          <div class="item-inner"> 
+                          <div class="item-inner form-fields"> 
                             <div class="item-title label">Name</div>
                             <div class="item-input">
                               <input id="your-name" type="text" placeholder="Your name">
@@ -148,7 +164,7 @@
                       <li class="align-top">
                         <div class="item-content">
                           <div class="item-media"><i class="icon icon-form-comment"></i></div>
-                          <div class="item-inner"> 
+                          <div class="item-inner form-fields"> 
                             <div class="item-title label">Title of your story</div>
                             <div class="item-input">
                               <textarea id="your-title" placeholder="Title of your story"></textarea>
@@ -158,10 +174,10 @@
                       </li>
                     </ul>
                   </div>
-                  <div class="content-block">
+                  <div class="content-block form-block">
                     <div class="row">
                       <div class="col-100" style="padding-left:250px;padding-right:250px">
-                        <input type="submit" value="Finish" id="finish" class="button button-big button-fill">
+                        <input type="submit" value="Finish" id="finish" class="button finish">
                       </div>
                     </div>
                   </div>
@@ -193,7 +209,7 @@
             <div class="popover-inner" style="text-align: center">
                 <p>Record your story</p>
                 <p>Press the record button to start and stop</p>
-                <p>You can re record at any time</p>
+                <p>You can re-record your story at any time</p>
                 <a class="link popover-close" class="button button-fill button-round">OK</a>
             </div>
         </div>

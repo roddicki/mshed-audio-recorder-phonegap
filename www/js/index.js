@@ -207,6 +207,28 @@ document.addEventListener('deviceready', function() {
 
       );
     }
+
+    //AUTO SIGN IN
+    firebase.auth().signInWithEmailAndPassword(email, pass).catch(function(error) {
+      // Handle Errors here.
+      console.log(error.code + error.message);
+    });
+
+    //SIGN OUT
+    //firebase.auth().signOut();
+    
+    //DETECT LOG IN STATE
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        //navigator.notification.alert(user.email + " is logged in. <br> This App is ready to use");
+        console.log(user.email + " logged in");
+      } else {
+        navigator.notification.alert("This app is not logged in, please check you have an internet connection");
+        console.log("logged out");
+      }
+    });
+
     //END FIREBASE FUNCTIONS
     
 
@@ -215,6 +237,10 @@ document.addEventListener('deviceready', function() {
 
 
 //mainView.router.load({pageName: 'form'});
+
+//LOG IN GLOBALS
+var email = "matt@mattfenloncreative.co.uk";
+var pass = "mshedmus1c";
 
 //RECORD variables
 var recordDone = false;
