@@ -38,7 +38,7 @@ $$(document).on('page:init', '.page[data-page="record"]', function (e) {
     });
 });
 
-//mainView.router.load({pageName: 'record'});
+
 
 document.addEventListener('deviceready', function() {
     /* Javascript here... */
@@ -54,38 +54,18 @@ document.addEventListener('deviceready', function() {
             clearInterval(startStopTimer);
             document.querySelector('#recording-timer').innerHTML = "Recording complete";
             document.querySelector('#playback-panel').style.display = "initial";
+            document.querySelector('#go-to-map').style.visibility = 'visible';
         } else {
             audio.createAudioFile();
             //add class
             document.getElementById('start-stop-record').classList.add("recording");
-            var fiveMinutes = 10 * 1
+            //var recordingTime = 10 * 1
             var display = document.querySelector('#recording-timer');
-            startTimer(fiveMinutes, display);
+            startTimer(recordingTime, display);
         };
         
     });
 
-    /*document.getElementById('record').addEventListener('click', function() {
-    	console.log('record');
-        audio.createAudioFile();
-    });
-
-    document.getElementById('stop-recording').addEventListener('click', function() {
-    	console.log('stop-recording');
-        audio.stopRecording();
-        recordDone = true;
-    });
-*/
-    /*document.getElementById('play-recording').addEventListener('click', function() {
-    	console.log('play-recording');
-        audio.play();
-    });
-
-    document.getElementById('pause-recording').addEventListener('click', function() {
-    	console.log('pause-recording');
-        audio.timeElapsed = audio.getCurrentPosition();
-        audio.pause();
-    });*/
 
     document.getElementById('start-stop-playback').addEventListener('click', function() {
         var playBtn = document.getElementById('start-stop-playback');
@@ -237,7 +217,12 @@ document.addEventListener('deviceready', function() {
 
 
 //mainView.router.load({pageName: 'form'});
+//mainView.router.load({pageName: 'record'});
 
+//globals
+
+//test nav
+var recordingTime = 60; //10s
 //LOG IN GLOBALS
 var email = "matt@mattfenloncreative.co.uk";
 var pass = "mshedmus1c";
@@ -341,7 +326,7 @@ function initMap() {
 function saveUserInput(){
 	uploadData.name = document.getElementById('your-name').value;
 	uploadData.title = document.getElementById('your-title').value;
-	uploadData.published = false;
+	uploadData.published = true;
 }
 
 //create random unique string for the id of each button

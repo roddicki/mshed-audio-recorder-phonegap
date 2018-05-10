@@ -44,9 +44,10 @@
               <a href="#" class="back link nav-text"><i class="fas fa-chevron-left icon-custom"></i> Back</a>
             </div>
             <div class="center sliding record-pop">Step 2 / 4</div>
-            <div class="right">
-              <!-- Right link contains only icon - additional "icon-only" class-->
-              <!-- <a href="#" id="go-to-map" class="link"><i class="icon chevron_right"></i><span>Save your audio recording and continue</span></a> -->
+            <div class="right" >
+              <div >
+                <a href="#" id="go-to-map" class="link nav-text">Save and Continue <i class="fas fa-chevron-right icon-custom"></i></a>
+              </div>
             </div>
           </div>
 
@@ -79,10 +80,10 @@
           <div data-page="index" class="page">
             <!-- Scrollable page content-->
             <div class="page-content">
-              <div class="content-block-title">Welcome To </div>
+              <div class="content-block-title">Welcome To The Audience</div>
               <div class="content-block">
                 <div class="content-block-inner">
-                  <p>First page</p>
+                  <div class="call-to-action">Call to action. Lorem ipsum dolor sit amet, vim an option interesset. Iudico inermis ad vim, an per primis iisque. Sale fugit ullum eos no. Vitae conclusionemque ad nam. Lorem ipsum dolor sit amet, vim an option interesset. Iudico inermis ad vim.</div>
                   
                 </div>
               </div>
@@ -92,35 +93,28 @@
           <!-- RECORD Page-->
           <div data-page="record" class="page cached">
             <div class="page-content">
+
+              <!-- popover panel -->
               <div id="playback-panel">
-                <div class="content-block-title">
-                  Listen to your recording
-                </div>
                 <div class="playback-controls">
                   <div class="playback-btn-outer">
                     <button id="start-stop-playback" class="playback-btn-inner"></button>
                   </div>
-                  <div class="playback-nav">
-                    <a href="#" id="go-to-map" class="playback-nav-link">Save your recording and continue <i class="fas fa-chevron-right icon-custom"></i></a>
-                  </div>
                 </div>
-
-                <div class="">
-                  
-                   <!--  <button id="record" class="button button-fill button-big button-round">Record</button>
-                    <button id="stop-recording" class="button button-fill button-big button-round">Stop Recording</button> -->
-                    <!-- <button id="play-recording" class="button button-fill button-big button-round">Play back recording</button>
-                    <button id="pause-recording" class="button button-fill button-big button-round">Pause</button> -->
-                    
-                    <!-- <button id="upload" class="col button button-fill button-big button-round">Upload</button> -->
+                <div class="content-block-title">
+                  Listen to Your Recording
                 </div>
               </div>
-              <div class="content-block-title">Record your story</div>
+              <!-- popover panel -->
+
+              <div class="content-block-title">Record Your Story</div>
               <div class="content-block">
                 <div class="content-block-inner">
                   <div class="block">
                     <div class="audio-controls">
-                      <div class="record-btn-outer"><button id="start-stop-record" class="record-btn-inner"></button></div>
+                      <div class="record-btn-outer">
+                        <a id="start-stop-record" class="record-btn-inner"></a>
+                      </div>
                     </div>
                     <div id="recording-timer" class="counter"></div>
                   </div>
@@ -156,7 +150,7 @@
                           <div class="item-inner form-fields"> 
                             <div class="item-title label">Name</div>
                             <div class="item-input">
-                              <input id="your-name" type="text" placeholder="Your name">
+                              <input id="your-name" type="text" placeholder="Add your name">
                             </div>
                           </div>
                         </div>
@@ -165,9 +159,9 @@
                         <div class="item-content">
                           <div class="item-media"><i class="icon icon-form-comment"></i></div>
                           <div class="item-inner form-fields"> 
-                            <div class="item-title label">Title of your story</div>
+                            <div class="item-title label">Title of Your Story</div>
                             <div class="item-input">
-                              <textarea id="your-title" placeholder="Title of your story"></textarea>
+                              <textarea id="your-title" placeholder="Add the title of your story"></textarea>
                             </div>
                           </div>
                         </div>
@@ -177,7 +171,7 @@
                   <div class="content-block form-block">
                     <div class="row">
                       <div class="col-100" style="padding-left:250px;padding-right:250px">
-                        <input type="submit" value="Finish" id="finish" class="button finish">
+                        <input type="submit" value="Finish" id="finish" class="button button-big button-fill finish">
                       </div>
                     </div>
                   </div>
@@ -193,12 +187,12 @@
         <!-- popover -->
         <div class="popover map-popover" id="map-popover">
             <!-- Popover content -->
-            <div class="popover-inner" style="text-align: center">
+            <div class="popover-inner" style="text-align: center;width: 60%;margin:auto;">
                 <p>Where did your story take place?</p>
                 <p>Tap the map to add the location of your story.</p>
                 <p>Move the map with one finger.</p>
                 <p>Zoom the map with two fingers.</p>
-                <a class="link popover-close" class="button button-fill button-round">OK</a>
+                <a class="popover-close button button-big button-fill">Start</a>
             </div>
         </div>
         <!-- popover -->
@@ -206,11 +200,11 @@
         <!-- popover -->
         <div class="popover recording-popover" id="recording-popover">
             <!-- Popover content -->
-            <div class="popover-inner" style="text-align: center">
+            <div class="popover-inner" style="text-align: center;width: 60%;margin:auto;">
                 <p>Record your story</p>
                 <p>Press the record button to start and stop</p>
                 <p>You can re-record your story at any time</p>
-                <a class="link popover-close" class="button button-fill button-round">OK</a>
+                <a class="popover-close button button-big button-fill">Start</a>
             </div>
         </div>
         <!-- popover -->
