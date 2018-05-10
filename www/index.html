@@ -23,6 +23,10 @@
     <div class="views">
       <!-- Your main view, should have "view-main" class-->
       <div class="view view-main">
+        <!-- Floating Action Button -->
+        <a href="#" class="floating-button custom color-blue">
+          Start<br>Again
+        </a>
         
 
         <!-- Top Navbar-->
@@ -34,7 +38,7 @@
             <div class="center sliding">Step 1 / 4</div>
             <div class="right">
               <!-- Right link contains only icon - additional "icon-only" class-->
-              <a href="#record" class="link nav-text">Next <i class="fas fa-chevron-right icon-custom"></i></a>
+              <a href="#record" id="go-to-record" class="link nav-text">Next <i class="fas fa-chevron-right icon-custom"></i></a>
             </div>
           </div>
 
@@ -193,7 +197,7 @@
                 <p>Tap the map to add the location of your story.</p>
                 <p>Move the map with one finger.</p>
                 <p>Zoom the map with two fingers.</p>
-                <a class="popover-close button button-big button-fill">Start</a>
+                <a class="popover-close button button-big button-fill">I'm ready</a>
             </div>
         </div>
         <!-- popover -->
@@ -203,9 +207,10 @@
             <!-- Popover content -->
             <div class="popover-inner" style="text-align: center;width: 60%;margin:auto;">
                 <p class="content-block-title">Record Your Story</p>
-                <p>Press the record button to start and stop</p>
+                <p>Press the red record button to start and stop</p>
+                <p>You will have a minute to record your story</p>
                 <p>You can re-record your story at any time</p>
-                <a class="popover-close button button-big button-fill">Start</a>
+                <a class="popover-close button button-big button-fill">I'm ready</a>
             </div>
         </div>
         <!-- popover -->

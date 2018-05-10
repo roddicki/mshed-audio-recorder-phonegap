@@ -1,6 +1,6 @@
 //to do
-//reset: recentre map / remove pin / add map modal (line 23 change from page:ini to page show)
 //sleep timer - reset if idle after x mins
+//fab button to start again
 
 // Initialize your app
 var myApp = new Framework7({
@@ -19,51 +19,54 @@ var mainView = myApp.addView('.view-main', {
     domCache: true
 });
 
+
+//when record page loads
+$$(document).on('page:init', '.page[data-page="record"]', function (e) {
+    console.log('record loaded');
+    myApp.popover(".recording-popover", ".record-pop");
+    document.getElementById('recording-popover').addEventListener('click', function(){
+        myApp.closeModal(".recording-popover", true);
+    });
+});
+
+//when record page reloads
+$$(document).on('page:reinit', '.page[data-page="record"]', function (e) {
+    console.log('record reloaded');
+    myApp.popover(".recording-popover", ".record-pop");
+    removeMapMarker();
+});
+
+
 //when map page loads
 $$(document).on('page:init', '.page[data-page="map"]', function (e) {
 	injectMapScript();
-	myApp.popover(".map-popover", ".pop");
+	//myApp.popover(".map-popover", ".pop");
 	//mapPopover.open("#map-popover", "#map", true);
 	document.getElementById('map-popover').addEventListener('click', function(){
 		myApp.closeModal(".map-popover", true);
 	});
 });
 
-//when record page loads
-$$(document).on('page:init', '.page[data-page="record"]', function (e) {
-    myApp.popover(".recording-popover", ".record-pop");
-    //mapPopover.open("#map-popover", "#map", true);
-    document.getElementById('recording-popover').addEventListener('click', function(){
-        myApp.closeModal(".recording-popover", true);
-    });
-});
 
 
 
 document.addEventListener('deviceready', function() {
     /* Javascript here... */
     console.log('\n-------------\nDEVICE READY');
+    
+    document.querySelector('.floating-button').addEventListener('click', function() {
+        resetApp();
+    });
+
+    document.querySelector('.views').addEventListener('click', function() {
+        console.log('page clicked detected');
+        idleTimerReset();
+    });
+    
 
     document.getElementById('start-stop-record').addEventListener('click', function() {
         console.log('record');
-        if (audio.recording) {
-            audio.stopRecording();
-            recordDone = true;
-            //remove class
-            document.getElementById('start-stop-record').classList.remove("recording");
-            clearInterval(startStopTimer);
-            document.querySelector('#recording-timer').innerHTML = "Recording complete";
-            document.querySelector('#playback-panel').style.display = "initial";
-            document.querySelector('#go-to-map').style.visibility = 'visible';
-        } else {
-            audio.createAudioFile();
-            //add class
-            document.getElementById('start-stop-record').classList.add("recording");
-            //var recordingTime = 10 * 1
-            var display = document.querySelector('#recording-timer');
-            startTimer(recordingTime, display);
-        };
-        
+        recordAudio();   
     });
 
 
@@ -74,7 +77,7 @@ document.addEventListener('deviceready', function() {
             playBtn.style.backgroundImage = "url('img/play-trans.png')";
             playBtn.style.backgroundPosition = "14px 10px";
         } else {
-            console.log('play-recording');
+            console.log('playing back');
             audio.play();
             playBtn.style.backgroundImage = "url('img/pause.png')";
             playBtn.style.backgroundPosition = "10px 10px";
@@ -88,6 +91,7 @@ document.addEventListener('deviceready', function() {
         console.log('go-to-map');
         if (recordDone) {
         	mainView.router.load({pageName: 'map'});
+            myApp.popover(".map-popover", ".pop");
         } else {
         	navigator.notification.alert("Oops you haven't finished recording your story");
         };
@@ -105,15 +109,16 @@ document.addEventListener('deviceready', function() {
         //uploadText();
         //uploadAudio(audio.srcFile);
     });
+    
 
     document.getElementById('finish').addEventListener('click', function() {
-    	navigator.notification.alert("Thanks! Your story has been submitted, download the app");
+        myApp.addNotification({title: "Thanks! Your story has been submitted", message: "download the Audience app to find other stories around Bristol", hold: 6000});
         console.log('finish');
         saveUserInput();
         console.log(uploadData);
         //uploadText();
         uploadAudio(audio.srcFile);
-        setTimeout(resetApp, 4000);
+        setTimeout(resetApp, 2000);
     });
 
     // Initialize FIREBASE 
@@ -231,15 +236,28 @@ var pass = "mshedmus1c";
 var recordDone = false;
 var startStopTimer;
 //MAP variables
+var map, marker;
 var modalDone = false;
 var alertDone = false;
 var mapCreated = false;
 var savedLocation = null;
 //data to upload
 var uploadData = {};
+//sleep
+var idleTime = 60*5; //s
+var idleTimer = setTimeout(resetApp,  idleTime*1000);
+
+
+function idleTimerReset(){
+    console.log("idle Timer reset");
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(resetApp, idleTime*1000);
+}
+
 
 //RESET APP
 function resetApp(){
+    console.log("app reset");
     document.getElementById('your-name').value = "";
 	document.getElementById('your-title').value = "";
 	uploadData = {};
@@ -248,11 +266,16 @@ function resetApp(){
     modalDone = false;
     alertDone = false;
     mapCreated = false;
+    myApp.closeModal();
     mainView.router.load({pageName: 'index'});
     document.querySelector('#recording-timer').innerHTML = "";
-    //reset map to mshed
-    //remove marker
+    resetRecording();
     document.querySelector('#playback-panel').style.display = "none";
+    document.querySelector('#go-to-map').style.visibility = 'hidden';  
+    stopAudioPlayback();
+    idleTimerReset();
+    reCenterMap();
+    //myApp.closeModal();
 }
 
 
@@ -271,12 +294,12 @@ function injectMapScript() {
 //create map - fired by the googleapis script tag
 function initMap() {
     console.log('initMap');
-    var marker;
+    //var marker;
     var mapCenter = {lat: 51.44780110633896, lng: -2.598216131749723};
     //if a marker already has been added load map so marker is in the center
     if (savedLocation != null) {mapCenter =  savedLocation};
 
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         streetViewControl: false,
         clickableIcons: false,
         zoom: 18,
@@ -299,28 +322,45 @@ function initMap() {
         uploadData.latitude = clickedLoc.lat;
         uploadData.longitude = clickedLoc.lng;
         savedLocation = clickedLoc;
-        
+        if (!(alertDone)) {
+            setTimeout(function(){
+                navigator.notification.alert("If you want to move the marker you can click the map again");
+            }   
+            ,600);
+            alertDone = true;
+        }
+        console.log();
         //place marker
         if (marker == null) {
             marker = new google.maps.Marker({
                 position: e.latLng,
                 map: map
             }); 
+            marker.setVisible(true);
         } else {
             clickedLoc = new google.maps.LatLng(clickedLoc.lat, clickedLoc.lng)
             marker.setPosition(clickedLoc); 
+            marker.setVisible(true);
         } 
-        if (!(alertDone)) {
-            setTimeout(function(){
-            	navigator.notification.alert("If you want to move the marker you can click the map again");
-            }   
-            ,600);
-            alertDone = true;
-        }
     });
     //set global
     mapCreated = true;
 }
+
+//map reset functions
+function reCenterMap(){
+    var center = {lat: 51.44780110633896, lng: -2.598216131749723};
+    //var center = new google.maps.LatLng(lat, lon);
+    map.setCenter(center);
+    map.setZoom(18);
+    //marker.setPosition(center);
+}
+
+function removeMapMarker() {
+    marker.setVisible(false);
+}
+
+
 
 //USER DATA FUNCTIONS
 function saveUserInput(){
@@ -413,11 +453,12 @@ var audio = {
         audio.playbackObject = new Media(audio.srcFile,
         // success callback
         function() {
-            print.ToTextArea("playAudio():Audio Success");
+            console.log("playAudio():Audio Success");
+            resetPlayBtn();
         },
         // error callback
         function(err) {
-            print.ToTextArea("playAudio():Audio Error: "+ JSON.stringify(err));
+            console.log("playAudio():Audio Error: "+ JSON.stringify(err));
         });
         // Play audio
         audio.playbackObject.play();
@@ -442,6 +483,57 @@ var audio = {
 
 };
 
+
+
+function recordAudio(){
+    if (audio.recording) {
+        audio.stopRecording();
+        recordDone = true;
+        //remove class
+        document.getElementById('start-stop-record').classList.remove("recording");
+        clearInterval(startStopTimer);
+        document.querySelector('#recording-timer').innerHTML = "Recording complete";
+        document.querySelector('#playback-panel').style.display = "initial";
+        document.querySelector('#go-to-map').style.visibility = 'visible';
+    } else {
+        audio.createAudioFile();
+        //add class
+        document.getElementById('start-stop-record').classList.add("recording");
+        //var recordingTime = 10 * 1
+        document.querySelector('#playback-panel').style.display = "none";
+        var display = document.querySelector('#recording-timer');
+        startTimer(recordingTime, display);
+    };
+}
+
+//audio and recodring reset functions
+function resetRecording(){
+    if (audio.recording) {
+        audio.stopRecording();
+        recordDone = true;
+        //remove class
+        document.getElementById('start-stop-record').classList.remove("recording");
+        clearInterval(startStopTimer);
+        document.querySelector('#recording-timer').innerHTML = "";
+        document.querySelector('#playback-panel').style.display = "none";
+        document.querySelector('#go-to-map').style.visibility = 'hidden';
+    };
+}
+
+function stopAudioPlayback(){
+    if (audio.playingBack) {
+        audio.pause();
+        var playBtn = document.getElementById('start-stop-playback');
+        playBtn.style.backgroundImage = "url('img/play-trans.png')";
+        playBtn.style.backgroundPosition = "14px 10px";
+    }
+}
+
+function resetPlayBtn(){
+    var playBtn = document.getElementById('start-stop-playback');
+    playBtn.style.backgroundImage = "url('img/play-trans.png')";
+    playBtn.style.backgroundPosition = "14px 10px";
+}
 
 //OUTPUT TO TEXTAEREA
 var print = {
