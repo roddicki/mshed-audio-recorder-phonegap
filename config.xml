@@ -4,8 +4,8 @@
     <description>
         Audio and Location Recording App for Mshed Bristol
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="rod.dickinson@uwe.ac.uk" href="http://phonegap.com">
+        UWE Bristol
     </author>
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="false" />
@@ -23,7 +23,7 @@
     <platform name="android">
     </platform>
     <platform name="ios">
-        <icon height="57" platform="ios" src="www/res/icon/ios/icon.png" width="57" />
+       <!--  <icon height="57" platform="ios" src="www/res/icon/ios/icon.png" width="57" />
         <icon height="114" platform="ios" src="www/res/icon/ios/icon@2x.png" width="114" />
         <icon height="40" platform="ios" src="www/res/icon/ios/icon-40.png" width="40" />
         <icon height="80" platform="ios" src="www/res/icon/ios/icon-40@2x.png" width="80" />
@@ -44,7 +44,7 @@
         <splash height="2048" platform="ios" src="www/res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" />
         <splash height="1024" platform="ios" src="www/res/screen/ios/Default-Portrait~ipad.png" width="768" />
         <splash height="960" platform="ios" src="www/res/screen/ios/Default@2x~iphone.png" width="640" />
-        <splash height="480" platform="ios" src="www/res/screen/ios/Default~iphone.png" width="320" />
+        <splash height="480" platform="ios" src="www/res/screen/ios/Default~iphone.png" width="320" /> -->
     </platform>
     <access origin="*" />
     <access origin="cdvfile://*" />
