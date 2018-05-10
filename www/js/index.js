@@ -1,6 +1,6 @@
 //to do
 //reset: recentre map / remove pin / add map modal (line 23 change from page:ini to page show)
-
+//sleep timer - reset if idle after x mins
 
 // Initialize your app
 var myApp = new Framework7({

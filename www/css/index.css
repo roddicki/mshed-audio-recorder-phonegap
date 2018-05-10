@@ -69,6 +69,11 @@ ul {
     background: rgba(0,0,0,.9999) !important;
 }
 
+.button {
+	font-size: 27px !important;
+	font-family:'Roboto-Regular' !important;
+}
+
 /*UI Nav*/
 .nav-text {
 	display: block;
@@ -113,9 +118,13 @@ ul {
 .map-popover, .recording-popover {
 	opacity: 0.8 !important;
 	font-size: 27px;
-	width: 70%;
+	width: 90%;
 	height: 80%;
     color: #ffffff;
+}
+
+.popover-close {
+	margin-top: 80px;
 }
 
 .popover-angle:after {
