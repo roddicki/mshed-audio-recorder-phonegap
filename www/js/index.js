@@ -114,7 +114,7 @@ document.addEventListener('deviceready', function() {
     
 
     document.getElementById('finish').addEventListener('click', function() {
-        myApp.addNotification({title: "Thanks! Your story has been submitted", message: "download the Audience app to find other stories around Bristol", hold: 6000});
+        //myApp.addNotification({title: "Thanks! Your story has been submitted", message: "download the Audience app to find other stories around Bristol", hold: 6000});
         window.plugins.toast.show('Thanks! Your story has been submitted. Download the Audience app to find other stories around Bristol', '6000', 'center');
         console.log('finish');
         saveUserInput();
