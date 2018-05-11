@@ -303,7 +303,8 @@ function initMap() {
         streetViewControl: false,
         clickableIcons: false,
         zoom: 18,
-        center: mapCenter
+        center: mapCenter,
+        gestureHandling: 'greedy'
     });
 
 
