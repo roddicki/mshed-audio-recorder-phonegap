@@ -8,9 +8,11 @@
         UWE Bristol
     </author>
     <content src="index.html" />
-    <preference name="DisallowOverscroll" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
     <preference name="BackgroundColor" value="#000000" />
+    <preference name="orientation" value="landscape" />
+    <preference name="fullscreen" value="true" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
@@ -84,4 +86,5 @@
     <plugin name="cordova-plugin-whitelist" spec="~1.2.1" />
     <plugin name="cordova-plugin-x-socialsharing" spec="~5.2.1" />
     <plugin name="cordova-plugin-background-mode" spec="~0.7.2" />
+    <plugin name="cordova-plugin-x-toast" spec="^2.6.2" />
 </widget>

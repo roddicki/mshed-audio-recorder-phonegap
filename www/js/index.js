@@ -105,6 +105,7 @@ document.addEventListener('deviceready', function() {
         if (savedLocation != null) {
         	mainView.router.load({pageName: 'form'});
         } else {
+            window.plugins.toast.show('Please double tap a location on the map to continue', '4000', 'center');
         	navigator.notification.alert("Please tap a location on the map");
         };
         //uploadText();
@@ -114,6 +115,7 @@ document.addEventListener('deviceready', function() {
 
     document.getElementById('finish').addEventListener('click', function() {
         myApp.addNotification({title: "Thanks! Your story has been submitted", message: "download the Audience app to find other stories around Bristol", hold: 6000});
+        window.plugins.toast.show('Thanks! Your story has been submitted. Download the Audience app to find other stories around Bristol', '6000', 'center');
         console.log('finish');
         saveUserInput();
         console.log(uploadData);
@@ -222,7 +224,7 @@ document.addEventListener('deviceready', function() {
 
 
 
-//mainView.router.load({pageName: 'form'});
+mainView.router.load({pageName: 'map'});
 //mainView.router.load({pageName: 'record'});
 
 //globals
@@ -305,7 +307,7 @@ function initMap() {
         clickableIcons: false,
         zoom: 18,
         center: mapCenter,
-        gestureHandling: 'greedy',
+        gestureHandling: "greedy",
         disableDoubleClickZoom: true
     });
 
@@ -328,6 +330,7 @@ function initMap() {
         savedLocation = clickedLoc;
         if (!(alertDone)) {
             setTimeout(function(){
+                window.plugins.toast.show('If you want to move the marker you can click the map again', '3000', 'center');
                 navigator.notification.alert("If you want to move the marker you can click the map again");
             }   
             ,600);
@@ -392,7 +395,7 @@ function startTimer(duration, display) {
         display.textContent = "Recording: You have " + minutes + ":" + seconds + " seconds remaining";
 
         if (--timer < 0) {
-            display.textContent = "Recording complete";
+            display.textContent = "Recording complete<br>You can use the record button to record again";
             audio.stopRecording();
             //remove class
             clearInterval(startStopTimer);
@@ -496,7 +499,7 @@ function recordAudio(){
         //remove class
         document.getElementById('start-stop-record').classList.remove("recording");
         clearInterval(startStopTimer);
-        document.querySelector('#recording-timer').innerHTML = "Recording complete";
+        document.querySelector('#recording-timer').innerHTML = "Recording complete<br>You can use the record button to record again";
         document.querySelector('#playback-panel').style.display = "initial";
         document.querySelector('#go-to-map').style.visibility = 'visible';
     } else {

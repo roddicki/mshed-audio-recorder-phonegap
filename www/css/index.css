@@ -145,6 +145,7 @@ ul {
 .audio-controls {
 	padding: 20px;
 	text-align: center;
+	height: 20vh;
 }
 
 .record-btn-outer {
@@ -172,7 +173,8 @@ ul {
 .counter {
 	text-align: center;
 	color: #ffffff;
-	font-size: 35px;
+	font-size: 25px;
+	height: 25vh;
 }
 
 #go-to-map {
@@ -191,6 +193,10 @@ ul {
 	background-color: #222426 !important;
 	color: #ffffff !important;
 	z-index: 100;
+}
+
+#playback-panel .content-block-title {
+	font-size: 25px;
 }
 
 
