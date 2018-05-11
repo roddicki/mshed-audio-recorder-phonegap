@@ -4,7 +4,8 @@
 
 // Initialize your app
 var myApp = new Framework7({
-    animateNavBackIcon:true
+    animateNavBackIcon:true,
+    tapHold: true //enable tap hold events
 });
 
 // Export selectors engine
@@ -304,7 +305,8 @@ function initMap() {
         clickableIcons: false,
         zoom: 18,
         center: mapCenter,
-        gestureHandling: 'greedy'
+        gestureHandling: 'greedy',
+        disableDoubleClickZoom: true
     });
 
 
@@ -317,8 +319,9 @@ function initMap() {
         }); 
     };
     
+    
     //listen for map click and add / move marker
-    map.addListener('click', function(e) {
+    map.addListener('dblclick', function(e) {
         var clickedLoc = JSON.parse(JSON.stringify(e.latLng));
         uploadData.latitude = clickedLoc.lat;
         uploadData.longitude = clickedLoc.lng;
