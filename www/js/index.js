@@ -106,7 +106,7 @@ document.addEventListener('deviceready', function() {
         	mainView.router.load({pageName: 'form'});
         } else {
             window.plugins.toast.show('Please double tap a location on the map to continue', '4000', 'center');
-        	navigator.notification.alert("Please tap a location on the map");
+        	//navigator.notification.alert("Please tap a location on the map");
         };
         //uploadText();
         //uploadAudio(audio.srcFile);
@@ -224,7 +224,7 @@ document.addEventListener('deviceready', function() {
 
 
 
-mainView.router.load({pageName: 'map'});
+//mainView.router.load({pageName: 'map'});
 //mainView.router.load({pageName: 'record'});
 
 //globals
@@ -331,7 +331,7 @@ function initMap() {
         if (!(alertDone)) {
             setTimeout(function(){
                 window.plugins.toast.show('If you want to move the marker you can click the map again', '3000', 'center');
-                navigator.notification.alert("If you want to move the marker you can click the map again");
+                //navigator.notification.alert("If you want to move the marker you can click the map again");
             }   
             ,600);
             alertDone = true;
