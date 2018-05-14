@@ -579,7 +579,7 @@ function stopAudioPlayback(){
     if (audio.playingBack) {
         audio.pause();
         var playBtn = document.getElementById('start-stop-playback').querySelector('.f7-icons');
-        playBtn.innerText = "pause_fill";
+        playBtn.innerText = "play_fill";
     }
 }
 
