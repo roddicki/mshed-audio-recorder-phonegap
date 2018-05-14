@@ -36,7 +36,7 @@ $$(document).on('page:init', '.page[data-page="record"]', function (e) {
 $$(document).on('page:reinit', '.page[data-page="record"]', function (e) {
     console.log('record reloaded');
     myApp.popover(".recording-popover", ".record-pop");
-    removeMapMarker();
+    //removeMapMarker();
 });
 
 
@@ -117,12 +117,19 @@ document.addEventListener('deviceready', function() {
         //myApp.addNotification({title: "Thanks! Your story has been submitted", message: "download the Audience app to find other stories around Bristol", hold: 6000});
         //window.plugins.toast.show('Thanks! Your story has been submitted. Download the Audience app to find other stories around Bristol', '6000', 'center');
         console.log('finish');
-        saveUserInput();
-        console.log(uploadData);
-        //uploadText();
-        uploadAudio(audio.srcFile);
-        mainView.router.load({pageName: 'thanks'});
-        setTimeout(resetApp, 11000);
+        if (userInputAdded()) {
+            saveUserInput();
+            console.log(uploadData);
+            //uploadText();
+            uploadAudio(audio.srcFile);
+            mainView.router.load({pageName: 'thanks'});
+            setTimeout(resetApp, 13000);
+        } else {
+            alert("Please add a title for your story");
+            window.plugins.toast.show('Please add a title for your story', '4000', 'center');
+        };
+
+        
     });
 
     // Initialize FIREBASE 
@@ -226,7 +233,7 @@ document.addEventListener('deviceready', function() {
 
 
 //mainView.router.load({pageName: 'map'});
-//mainView.router.load({pageName: 'thanks'});
+//mainView.router.load({pageName: 'form'});
 
 //globals
 
@@ -278,6 +285,7 @@ function resetApp(){
     document.querySelector('#go-to-map').style.visibility = 'hidden';  
     stopAudioPlayback();
     idleTimerReset();
+    removeMapMarker();
     reCenterMap();
     //myApp.closeModal();
 }
@@ -372,13 +380,31 @@ function removeMapMarker() {
 
 //USER DATA FUNCTIONS
 function saveUserInput(){
-	uploadData.name = document.getElementById('your-name').value;
-	uploadData.title = document.getElementById('your-title').value;
+    //check to see if name is empty
+    var userName = document.getElementById('your-name').value;
+    var userTitle = document.getElementById('your-title').value;
+    var newUserTitle = "";
+    if (userName != "") {
+        uploadData.name = userName;
+    } else {
+        uploadData.name = "Anonymous"
+    };
+    //check for number of words and add <br> after 5 words
+    var replaced = userTitle.split(' ');
+    for (var i = 0; i < replaced.length; i++) {
+        newUserTitle += replaced[i];
+        if (i/5 % 1 === 0 && i != 0 && i != replaced.length-1) {
+            newUserTitle += "<br>";
+        } else {
+            newUserTitle += " ";
+        };
+    };
+	uploadData.title = newUserTitle;
 	uploadData.published = true;
 }
 
 function userInputAdded() {
-    if (document.getElementById('your-name').value != "" && document.getElementById('your-title').value != "") {
+    if (document.getElementById('your-title').value != "") {
         return true;
     } else {
         return false;
