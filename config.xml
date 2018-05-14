@@ -13,8 +13,8 @@
     <preference name="BackgroundColor" value="#000000" />
     <preference name="orientation" value="landscape" />
     <preference name="fullscreen" value="true" />
-    <preference name="StatusBarOverlaysWebView" value="true" />
-    <preference name="StatusBarBackgroundColor" value="#000000" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#061B2C" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <icon src="icon.png" />
     <platform name="ios">
