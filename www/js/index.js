@@ -1,6 +1,8 @@
 //to do
-//sleep timer - reset if idle after x mins
-//fab button to start again
+//if you add a location and go back to the record page and then return the location is gone and the interface allows you to continue. Oops!
+//hide save and continue when recording
+//check title and name input
+//add double tap icons
 
 // Initialize your app
 var myApp = new Framework7({
@@ -72,16 +74,14 @@ document.addEventListener('deviceready', function() {
 
 
     document.getElementById('start-stop-playback').addEventListener('click', function() {
-        var playBtn = document.getElementById('start-stop-playback');
+        var playBtn = document.getElementById('start-stop-playback').querySelector('.f7-icons');
         if (audio.playingBack) {
             audio.pause();
-            playBtn.style.backgroundImage = "url('img/play-trans.png')";
-            playBtn.style.backgroundPosition = "14px 10px";
+            playBtn.innerText = "play_fill";        
         } else {
             console.log('playing back');
             audio.play();
-            playBtn.style.backgroundImage = "url('img/pause.png')";
-            playBtn.style.backgroundPosition = "10px 10px";
+            playBtn.innerText = "pause_fill";
         };
         
     });
@@ -115,13 +115,14 @@ document.addEventListener('deviceready', function() {
 
     document.getElementById('finish').addEventListener('click', function() {
         //myApp.addNotification({title: "Thanks! Your story has been submitted", message: "download the Audience app to find other stories around Bristol", hold: 6000});
-        window.plugins.toast.show('Thanks! Your story has been submitted. Download the Audience app to find other stories around Bristol', '6000', 'center');
+        //window.plugins.toast.show('Thanks! Your story has been submitted. Download the Audience app to find other stories around Bristol', '6000', 'center');
         console.log('finish');
         saveUserInput();
         console.log(uploadData);
         //uploadText();
         uploadAudio(audio.srcFile);
-        setTimeout(resetApp, 2000);
+        mainView.router.load({pageName: 'thanks'});
+        setTimeout(resetApp, 11000);
     });
 
     // Initialize FIREBASE 
@@ -225,7 +226,7 @@ document.addEventListener('deviceready', function() {
 
 
 //mainView.router.load({pageName: 'map'});
-//mainView.router.load({pageName: 'record'});
+//mainView.router.load({pageName: 'thanks'});
 
 //globals
 
@@ -330,7 +331,7 @@ function initMap() {
         savedLocation = clickedLoc;
         if (!(alertDone)) {
             setTimeout(function(){
-                window.plugins.toast.show('If you want to move the marker you can click the map again', '3000', 'center');
+                window.plugins.toast.show('If you want to move the marker you can double tap the map again', '3000', 'center');
                 //navigator.notification.alert("If you want to move the marker you can click the map again");
             }   
             ,600);
@@ -376,6 +377,14 @@ function saveUserInput(){
 	uploadData.published = true;
 }
 
+function userInputAdded() {
+    if (document.getElementById('your-name').value != "" && document.getElementById('your-title').value != "") {
+        return true;
+    } else {
+        return false;
+    };
+}
+
 //create random unique string for the id of each button
 function makeId() {
 	var uniqueId = Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
@@ -395,7 +404,7 @@ function startTimer(duration, display) {
         display.textContent = "Recording: You have " + minutes + ":" + seconds + " seconds remaining";
 
         if (--timer < 0) {
-            display.textContent = "Recording complete<br>You can use the record button to record again";
+            display.textContent = "Recording complete. You can use the record button to record again";
             audio.stopRecording();
             //remove class
             clearInterval(startStopTimer);
@@ -499,7 +508,7 @@ function recordAudio(){
         //remove class
         document.getElementById('start-stop-record').classList.remove("recording");
         clearInterval(startStopTimer);
-        document.querySelector('#recording-timer').innerHTML = "Recording complete<br>You can use the record button to record again";
+        document.querySelector('#recording-timer').innerHTML = "Recording complete. You can use the record button to record again";
         document.querySelector('#playback-panel').style.display = "initial";
         document.querySelector('#go-to-map').style.visibility = 'visible';
     } else {
@@ -530,16 +539,14 @@ function resetRecording(){
 function stopAudioPlayback(){
     if (audio.playingBack) {
         audio.pause();
-        var playBtn = document.getElementById('start-stop-playback');
-        playBtn.style.backgroundImage = "url('img/play-trans.png')";
-        playBtn.style.backgroundPosition = "14px 10px";
+        var playBtn = document.getElementById('start-stop-playback').querySelector('.f7-icons');
+        playBtn.innerText = "pause_fill";
     }
 }
 
 function resetPlayBtn(){
-    var playBtn = document.getElementById('start-stop-playback');
-    playBtn.style.backgroundImage = "url('img/play-trans.png')";
-    playBtn.style.backgroundPosition = "14px 10px";
+    var playBtn = document.getElementById('start-stop-playback').querySelector('.f7-icons');
+        playBtn.innerText = "play_fill";
 }
 
 //OUTPUT TO TEXTAEREA

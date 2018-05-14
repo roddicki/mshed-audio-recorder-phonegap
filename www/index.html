@@ -38,19 +38,20 @@
             <div class="center sliding">Step 1 / 4</div>
             <div class="right">
               <!-- Right link contains only icon - additional "icon-only" class-->
-              <a href="#record" id="go-to-record" class="link nav-text">Next <i class="fas fa-chevron-right icon-custom"></i></a>
+              <a href="#record" id="go-to-record" class="link nav-text">Next</a>
             </div>
           </div>
 
           <!-- Navbar inner for RECORD page-->
+          <!-- <i class="fas fa-chevron-left icon-custom"></i> -->
           <div data-page="record" class="navbar-inner cached">
             <div class="left sliding">
-              <a href="#" class="back link nav-text"><i class="fas fa-chevron-left icon-custom"></i> Back</a>
+              <a href="#" class="back link nav-text">Back</a>
             </div>
             <div class="center sliding record-pop">Step 2 / 4</div>
             <div class="right" >
               <div >
-                <a href="#" id="go-to-map" class="link nav-text">Save &amp; Continue <i class="fas fa-chevron-right icon-custom"></i></a>
+                <a href="#" id="go-to-map" class="link nav-text">Save &amp; Continue</a>
               </div>
             </div>
           </div>
@@ -58,21 +59,29 @@
           <!-- Navbar inner for MAP page-->
           <div data-page="map" class="navbar-inner cached">
             <div class="left sliding">
-              <a href="#" class="back link nav-text"><i class="fas fa-chevron-left icon-custom"></i> Back</a>
+              <a href="#" class="back link nav-text">Back</a>
             </div>
             <div class="center sliding pop">Step 3 / 4</div>
             <div class="right">
-              <a href="" id="go-to-form" class="link nav-text">Next <i class="fas fa-chevron-right icon-custom"></i></a>
+              <a href="" id="go-to-form" class="link nav-text">Next</a>
             </div>
           </div>
 
           <!-- Navbar inner for FORM page-->
           <div data-page="form" class="navbar-inner cached">
             <div class="left sliding">
-              <a href="#" class="back link nav-text"><i class="fas fa-chevron-left icon-custom"></i> Back</a>
+              <a href="#" class="back link nav-text">Back</a>
             </div>
             <div class="center sliding" >Step 4 / 4</div>
           </div>
+
+          <!-- Navbar inner for FORM page-->
+          <div data-page="thanks" class="navbar-inner cached">
+            <div class="left sliding"></div>
+            <div class="center sliding" ></div>
+            <div class="right"></div>
+          </div>
+
         </div>
         <!-- Top Navbar-->
 
@@ -87,7 +96,13 @@
               <div class="content-block-title">Welcome To The Audience</div>
               <div class="content-block">
                 <div class="content-block-inner">
-                  <div class="call-to-action">Call to action. Lorem ipsum dolor sit amet, vim an option interesset. Iudico inermis ad vim, an per primis iisque. Sale fugit ullum eos no. Vitae conclusionemque ad nam. Lorem ipsum dolor sit amet, vim an option interesset. Iudico inermis ad vim.</div>
+                  <div class="call-to-action">
+                    Explore the city and discover stories: The Audience is an application that allows you to walk to markers around the city and listen to people’s stories about what Bristol music means to them. 
+                    <br><br>
+                  Follow the on screen instructions to record and add your own story to The Audience app. 
+                  <br><br>
+                  Once you have recorded and submitted your story, you can download The Audience app from Google Play and the iOS App Store.
+                  </div>
                   
                 </div>
               </div>
@@ -102,7 +117,7 @@
               <div id="playback-panel">
                 <div class="playback-controls">
                   <div class="playback-btn-outer">
-                    <button id="start-stop-playback" class="playback-btn-inner"></button>
+                    <a id="start-stop-playback" class=""><i class="f7-icons size-50 color-custom">play_fill</i></a>
                   </div>
                 </div>
                 <div class="content-block-title">
@@ -185,6 +200,25 @@
               </div>
             </div>
           </div>
+
+          <!-- THANKS Page-->
+          <div data-page="thanks" class="page cached">
+            <!-- Scrollable page content-->
+            <div class="page-content">
+              <div class="content-block-title">Thanks for submitting your story! </div>
+              <div class="content-block">
+                <div class="content-block-inner">
+                  <div class="call-to-action">
+                    We hope you will download The Audience app from the Google Play and iOS App Store to listen to your story and many others located around Bristol.
+                    Search the app stores for "The Audience".
+                    <br><br>
+                    Access stories in the The Audience app by travelling to each story location.
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
               
         </div>
         <!-- end pages -->
@@ -192,12 +226,13 @@
         <!-- popover -->
         <div class="popover map-popover" id="map-popover">
             <!-- Popover content -->
-            <div class="popover-inner" style="text-align: center;width: 60%;margin:auto;">
-                <p class="content-block-title">Add Your Story To The Map</p>
+            <div class="popover-inner" style="text-align: justify;width: 60%;margin:auto;">
+                <h4 class="content-block-title">Add Your Story To The Map</h4>
                 <p>Where did your story take place?</p>
-                <p>Double tap the map to add the location of your story.</p>
+                <p>Double tap to add the story's location.</p>
                 <p>Move the map with one finger.</p>
                 <p>Zoom the map with two fingers.</p>
+                <p>Avoid placing pins inside buildings.</p>
                 <a class="popover-close button button-big button-fill">I'm ready</a>
             </div>
         </div>
@@ -206,11 +241,13 @@
         <!-- popover -->
         <div class="popover recording-popover" id="recording-popover">
             <!-- Popover content -->
-            <div class="popover-inner" style="text-align: center;width: 60%;margin:auto;">
-                <p class="content-block-title">Record Your Story</p>
-                <p>Press the red record button to start and stop</p>
-                <p>You will have a minute to record your story</p>
-                <p>You can re-record your story at any time</p>
+            <div class="popover-inner" style="text-align: justify;width: 60%;margin:auto;">
+                <h4 class="content-block-title">Record Your Story</h4>
+                <p>What is your most prominent memory of a music-related experience you’ve had in Bristol?</p>
+                <p >Perhaps you had encounter with a famous band or musician, or maybe it was just a really memorable gig or festival experience you had in Bristol.</p>
+                <p>Press the red record button to start and stop.</p>
+                <p>You will have a minute to record your story.</p>
+                <p>You can re-record your story at any time.</p>
                 <a class="popover-close button button-big button-fill">I'm ready</a>
             </div>
         </div>
