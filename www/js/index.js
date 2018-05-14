@@ -125,8 +125,21 @@ document.addEventListener('deviceready', function() {
             mainView.router.load({pageName: 'thanks'});
             setTimeout(resetApp, 13000);
         } else {
-            alert("Please add a title for your story");
-            window.plugins.toast.show('Please add a title for your story', '4000', 'center');
+            //window.plugins.toast.show('Please add a title for your story', '4000', 'center');
+            window.plugins.toast.showWithOptions({
+                message: "Please add a title for your story",
+                duration: "3000", // 2000 ms
+                position: "center",
+                styling: {
+                  opacity: 0.75, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
+                  backgroundColor: '#FF0000', // make sure you use #RRGGBB. Default #333333
+                  textColor: '#FFFFFF', // Ditto. Default #FFFFFF
+                  textSize: 20.5, // Default is approx. 13.
+                  cornerRadius: 20, // minimum is 0 (square). iOS default 20, Android default 100
+                  horizontalPadding: 20, // iOS default 16, Android default 50
+                  verticalPadding: 16 // iOS default 12, Android default 30
+                }
+              });
         };
 
         
