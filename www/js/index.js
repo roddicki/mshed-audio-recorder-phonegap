@@ -48,6 +48,39 @@ $$(document).on('page:init', '.page[data-page="map"]', function (e) {
 	document.getElementById('map-popover').addEventListener('click', function(){
 		myApp.closeModal(".map-popover", true);
 	});
+    window.plugins.toast.showWithOptions({
+        message: "Double tap add a location on the map",
+        duration: "3000", // 2000 ms
+        position: "bottom",
+        styling: {
+          opacity: 0.75, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
+          backgroundColor: '#FF0000', // make sure you use #RRGGBB. Default #333333
+          textColor: '#FFFFFF', // Ditto. Default #FFFFFF
+          textSize: 20.5, // Default is approx. 13.
+          cornerRadius: 20, // minimum is 0 (square). iOS default 20, Android default 100
+          horizontalPadding: 20, // iOS default 16, Android default 50
+          verticalPadding: 16 // iOS default 12, Android default 30
+        }
+      });
+});
+
+//when record page reloads
+$$(document).on('page:reinit', '.page[data-page="map"]', function (e) {
+    console.log('map reloaded');
+    window.plugins.toast.showWithOptions({
+        message: "Double tap add a location on the map",
+        duration: "3000", // 2000 ms
+        position: "bottom",
+        styling: {
+          opacity: 0.75, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
+          backgroundColor: '#FF0000', // make sure you use #RRGGBB. Default #333333
+          textColor: '#FFFFFF', // Ditto. Default #FFFFFF
+          textSize: 20.5, // Default is approx. 13.
+          cornerRadius: 20, // minimum is 0 (square). iOS default 20, Android default 100
+          horizontalPadding: 20, // iOS default 16, Android default 50
+          verticalPadding: 16 // iOS default 12, Android default 30
+        }
+      });
 });
 
 
