@@ -366,6 +366,61 @@ ul {
 }
 
 
+/*THANKS FOR DOWNLOADING PAGE*/
+
+.thanks .content-block-inner,
+.index  .content-block-inner {
+    background: transparent !important;
+    color: #ddd;
+}
+
+.thanks.page-content,
+.index.page-content {
+	background-image: url('../img/watermark.png');
+	background-size: 200px auto;
+	background-repeat: no-repeat;
+	background-position: 5% 95%;
+}
+
+.logos {
+	padding-top: 50px;
+}
+
+.logos .ios {
+	height: 60px;
+	background-image: url('../img/Download_on_the_App_Store_Badge_US-UK_135x40.svg');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.logos .android {
+	height: 60px;
+	background-image: url('../img/en-googleplay_badge_web_generic.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.logos .matt {
+	height: 60px;
+	background-image: url('../img/the-audience.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
