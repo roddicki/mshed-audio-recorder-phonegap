@@ -374,6 +374,13 @@ ul {
     color: #ddd;
 }
 
+.thanks .content-block-inner:after,
+.index .content-block-inner:after,
+.thanks .content-block-inner:before,
+.index .content-block-inner:before {
+	background: transparent !important;
+}
+
 .thanks.page-content,
 .index.page-content {
 	background-image: url('../img/watermark.png');

@@ -246,7 +246,7 @@ document.addEventListener('deviceready', function() {
 
 
 //mainView.router.load({pageName: 'map'});
-//mainView.router.load({pageName: 'thanks'});
+mainView.router.load({pageName: 'thanks'});
 
 //globals
 
