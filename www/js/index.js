@@ -129,7 +129,7 @@ document.addEventListener('deviceready', function() {
             //uploadText();
             uploadAudio(audio.srcFile);
             mainView.router.load({pageName: 'thanks'});
-            setTimeout(resetApp, 13000);
+            setTimeout(resetApp, 20000);
         } else {
             //window.plugins.toast.show('Please add a title for your story', '4000', 'center');
             window.plugins.toast.showWithOptions({
